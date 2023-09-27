@@ -8,7 +8,6 @@ import '../assets/styles/AboutSection.css';
 
 const AboutSection = () => {
   const activeUser = useSelector((state) => state.general.user);
-  console.log('active', activeUser);
 
   return (
     <>

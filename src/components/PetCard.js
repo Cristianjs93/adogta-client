@@ -1,16 +1,16 @@
-import { useState } from "react";
-import { withRouter } from "react-router-dom";
-import { FaMinus } from "react-icons/fa";
-import { IconContext } from "react-icons";
-import { deletePet } from "../store/actionCreators";
-import { useDispatch, useSelector } from "react-redux";
+import { useState } from 'react';
+import { withRouter } from 'react-router-dom';
+import { FaMinus } from 'react-icons/fa';
+import { IconContext } from 'react-icons';
+import { deletePet } from '../store/actionCreators';
+import { useDispatch, useSelector } from 'react-redux';
 
-import CardImage from "./CardImage";
-import CardModal from "./CardModal";
+import CardImage from './CardImage';
+import CardModal from './CardModal';
 
-import "../assets/styles/PetCard.css";
+import '../assets/styles/PetCard.css';
 
-const PetCard = props => {
+const PetCard = (props) => {
   const {
     _id,
     name,
@@ -23,9 +23,9 @@ const PetCard = props => {
   } = props;
   const dispatch = useDispatch();
 
-  const requests = useSelector(state => state.foundationRequests).filter(
-    item => item.petId._id === _id
-  );
+  const requests = useSelector(
+    (state) => state.general.foundationRequests
+  ).filter((item) => item.petId._id === _id);
 
   const [isOpen, setIsOpen] = useState(false);
 
@@ -43,51 +43,49 @@ const PetCard = props => {
     !adopted && props.history.push(`/pets/${_id}${redirectUrl}`);
   };
 
-  const handleDeletePet = async _id => {
+  const handleDeletePet = async (_id) => {
     dispatch(deletePet(_id));
   };
 
   return (
     <>
-      <div className="overflow--hidden" data-testid="petCard">
+      <div className='overflow--hidden' data-testid='petCard'>
         {isFoundation && requests.length > 0 && (
-          <div className="card-list-number">
+          <div className='card-list-number'>
             <p>{requests.length}</p>
           </div>
         )}
 
-        <div className="card-list-item">
+        <div className='card-list-item'>
           {adopted && (
-            <div className="card-list-message">
+            <div className='card-list-message'>
               <p>Adopted</p>
             </div>
           )}
           <img
-            className="card-list-item__image"
+            className='card-list-item__image'
             src={photoUrl[0]}
-            alt="Pet"
+            alt='Pet'
             onClick={handleOpenImage}
           />
-          <div className="card-list-item__details" onClick={handleClick}>
-            <h3 className="card-list-item__details--title">{name}</h3>
-            <p className="card-list-item__details--text">
+          <div className='card-list-item__details' onClick={handleClick}>
+            <h3 className='card-list-item__details--title'>{name}</h3>
+            <p className='card-list-item__details--text'>
               <span>Age:</span> {age}
             </p>
-            <p className="card-list-item__details--text">{description}</p>
+            <p className='card-list-item__details--text'>{description}</p>
           </div>
           {isFoundation && (
             <IconContext.Provider
               value={{
-                color: "red",
-                className: "delete-pets-container__icon",
-              }}
-            >
+                color: 'red',
+                className: 'delete-pets-container__icon',
+              }}>
               <div
-                className="delete-pets-container"
+                className='delete-pets-container'
                 onClick={handleOpenModal}
-                data-testid="deletePetButton"
-              >
-                {" "}
+                data-testid='deletePetButton'>
+                {' '}
                 <FaMinus />
               </div>
             </IconContext.Provider>
@@ -102,8 +100,7 @@ const PetCard = props => {
         <CardModal
           handleOpenModal={handleOpenModal}
           id={_id}
-          handleConfirm={handleDeletePet}
-        >
+          handleConfirm={handleDeletePet}>
           Are you sure you want to delete pet {name}
         </CardModal>
       )}

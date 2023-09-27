@@ -19,23 +19,67 @@ const initialState = {
 export const authUser = createAsyncThunk(
   'user/authUser',
   async ({ email, password }) => {
-    // try {
-    const response = await axios.post('/login', {
-      email: email,
-      password: password,
-    });
-    localStorage.setItem('AUTHORIZATION', response.data.token);
-    axios.defaults.headers.common['Authorization'] =
-      localStorage.getItem('AUTHORIZATION');
-    // dispatch({ type: LOGIN_USER, payload: response.data });
-    // } catch (e) {
-    //   dispatch({ type: ERROR, payload: e.response.data.error });
-    // }
+    try {
+      const response = await axios.post('/login', {
+        email: email,
+        password: password,
+      });
 
-    return response.data;
+      localStorage.setItem('AUTHORIZATION', response.data.token);
+
+      axios.defaults.headers.common['Authorization'] =
+        localStorage.getItem('AUTHORIZATION');
+
+      return response.data;
+    } catch (e) {
+      return e.message;
+    }
   }
 );
 
+export const loadUser = createAsyncThunk('user/loadUser', async () => {
+  try {
+    axios.defaults.headers.common['Authorization'] =
+      localStorage.getItem('AUTHORIZATION');
+
+    const response = await axios.get('/me');
+
+    return response.data;
+  } catch (e) {
+    localStorage.removeItem('AUTHORIZATION');
+    return e.message;
+  }
+});
+
+export const listPets = createAsyncThunk(
+  'pets/listPets',
+  async ({ initPage, foundationId }) => {
+    const params = {
+      page: initPage,
+    };
+
+    try {
+      const response = await axios.get(`/foundations/${foundationId}/pets`, {
+        params,
+      });
+      return response.data;
+    } catch (e) {
+      return e.message;
+    }
+  }
+);
+
+export const listFoundationRequests = createAsyncThunk(
+  'foundations/listFoundationRequests',
+  async (foundationId) => {
+    try {
+      let response = await axios.get(`/foundations/${foundationId}/requests`);
+      return response.data;
+    } catch (e) {
+      return e.message;
+    }
+  }
+);
 export const generalSlice = createSlice({
   name: 'general',
   initialState,
@@ -92,7 +136,7 @@ export const generalSlice = createSlice({
         error: '',
       };
     },
-    LOGOUT: (state) => {
+    logOut: (state) => {
       localStorage.removeItem('AUTHORIZATION');
 
       return {
@@ -164,7 +208,7 @@ export const generalSlice = createSlice({
         userRequests: action.payload,
       };
     },
-    SET_FOUNDATION: (state, action) => {
+    setFoundation: (state, action) => {
       return {
         ...state,
         foundation: action.payload,
@@ -183,7 +227,38 @@ export const generalSlice = createSlice({
         state.user = { _id, name, email, role, address, photoUrl, phoneNumber };
       })
       .addCase(authUser.rejected, (state, { error }) => {
-        state.status = 'UNAUTHENTICATED';
+        state.status = 'NOT_AUTHENTICATED';
+        state.error = error.message;
+      })
+      .addCase(loadUser.pending, (state) => {
+        state.status = 'LOADING';
+      })
+      .addCase(loadUser.fulfilled, (state, { payload }) => {
+        state.status = 'AUTHENTICATED';
+        const { _id, name, email, role, address, photoUrl, phoneNumber } =
+          payload;
+        state.user = { _id, name, email, role, address, photoUrl, phoneNumber };
+      })
+      .addCase(loadUser.rejected, (state, { error }) => {
+        state.status = 'NOT_AUTHENTICATED';
+        state.error = error.message;
+      })
+      .addCase(listPets.pending, () => {})
+      .addCase(listPets.fulfilled, (state, { payload }) => {
+        state.pets = payload.pets;
+        state.petListInfo = {
+          count: payload.count,
+          page: +payload.page,
+        };
+      })
+      .addCase(listPets.rejected, (state, { error }) => {
+        state.error = error.message;
+      })
+      .addCase(listFoundationRequests.pending, () => {})
+      .addCase(listFoundationRequests.fulfilled, (state, { payload }) => {
+        state.foundationRequests = payload;
+      })
+      .addCase(listFoundationRequests.rejected, (state, { error }) => {
         state.error = error.message;
       });
   },
@@ -197,7 +272,7 @@ export const {
   DELETE_PET,
   REGISTER_USER,
   UPDATE_PROFILE,
-  LOGOUT,
+  logOut,
   SELECT_PET,
   LIST_REQUESTS,
   LIST_FOUNDATION_REQUESTS,
@@ -206,10 +281,7 @@ export const {
   ERROR,
   CREATE_ADOPTION_REQUEST,
   LIST_USER_REQUESTS,
-  SET_FOUNDATION,
-  //   AUTHENTICATED,
-  //   NOT_AUTHENTICATED,
-  //   FINISHED,
+  setFoundation,
 } = generalSlice.actions;
 
 export const selectGeneral = (state) => state.general;

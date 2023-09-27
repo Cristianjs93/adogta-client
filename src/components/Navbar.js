@@ -7,10 +7,8 @@ import { Link as LinkScroll } from 'react-scroll';
 import { animateScroll as ScrollToTop } from 'react-scroll';
 import '../assets/styles/Navbar.css';
 import { useDispatch, useSelector } from 'react-redux';
-// import { logOut } from '../store/actionCreators';
-// import { AUTHENTICATED } from '../store/actions';
 import history from '../history';
-import { LOGOUT } from '../store/toolkit/slices/generalSlice';
+import { logOut } from '../store/toolkit/slices/generalSlice';
 
 function Navbar({ toggle }) {
   const dispatch = useDispatch();
@@ -40,7 +38,7 @@ function Navbar({ toggle }) {
   }, [isMobile]);
 
   const handleLogOut = () => {
-    dispatch(LOGOUT());
+    dispatch(logOut());
   };
 
   useEffect(() => {

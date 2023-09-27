@@ -4,32 +4,32 @@ import { Link } from 'react-router-dom';
 import { FaPlusCircle } from 'react-icons/fa';
 import { IconContext } from 'react-icons';
 import { useSelector, useDispatch } from 'react-redux';
-import { listPets, listFoundationRequests } from '../store/actionCreators';
-
+import {
+  listPets,
+  listFoundationRequests,
+} from '../store/toolkit/slices/generalSlice';
 import CardList from '../components/CardList';
 import PetCard from '../components/PetCard';
 import PaginationButtons from '../components/PaginationButtons';
 import history from '../history';
-
 import '../assets/styles/PetListPage.css';
-import { selectGeneral } from '../store/toolkit/slices/generalSlice';
 
 const PetListPage = () => {
-  const { id: foundationId } = useParams();
-  let redirectUrl = '';
   const dispatch = useDispatch();
-  const { pets, petListInfo } = useSelector((state) => state);
-  const { user } = useSelector((state) => state);
-  const loading = petListInfo.page ? false : true;
-  const initPage =
-    useLocation().search.slice(useLocation().search.indexOf('=') + 1) || 1;
+  const { search } = useLocation();
+  const { id: foundationId } = useParams();
 
-  const general = useSelector((state) => state);
-  const generalTK = useSelector(selectGeneral);
+  const general = useSelector((state) => state.general);
+  const { pets, petListInfo } = useSelector((state) => state.general);
+  const { user } = useSelector((state) => state.general);
+
+  let redirectUrl = '';
+  const loading = petListInfo.page ? false : true;
+  const initPage = search.slice(search.indexOf('=') + 1) || 1;
 
   //initial loading for pets and requests
   useEffect(() => {
-    dispatch(listPets(foundationId, initPage));
+    dispatch(listPets({ initPage, foundationId }));
     dispatch(listFoundationRequests(foundationId));
   }, [foundationId, dispatch, initPage]);
 
@@ -48,7 +48,7 @@ const PetListPage = () => {
     : (nextButton = false);
 
   const handleNextPage = () => {
-    dispatch(listPets(foundationId, petListInfo.page + 1));
+    dispatch(listPets({ initPage: petListInfo.page + 1, foundationId }));
     history.push({
       pathname: `/foundations/${foundationId}/pets`,
       search: `?page=${petListInfo.page + 1}`,
@@ -56,7 +56,7 @@ const PetListPage = () => {
   };
 
   const handlePreviousPage = () => {
-    dispatch(listPets(foundationId, petListInfo.page - 1));
+    dispatch(listPets({ initPage: petListInfo.page - 1, foundationId }));
     history.push({
       pathname: `/foundations/${foundationId}/pets`,
       search: `?page=${petListInfo.page - 1}`,
@@ -68,7 +68,6 @@ const PetListPage = () => {
       {!loading && (
         <>
           <button onClick={() => console.log(general)}>general</button>
-          <button onClick={() => console.log(generalTK)}>general TK</button>
           <CardList title='Are you looking for a new friend?'>
             {pets.length > 0 ? (
               pets.map((item) => (

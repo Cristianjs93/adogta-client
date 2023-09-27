@@ -2,10 +2,7 @@ import { useState, useRef, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import '../assets/styles/LoginPage.css';
 import { useSelector, useDispatch } from 'react-redux';
-import {
-  // authUser,
-  resetError,
-} from '../store/actionCreators';
+import { resetError } from '../store/actionCreators';
 import { authUser } from '../store/toolkit/slices/generalSlice';
 import history from '../history';
 
