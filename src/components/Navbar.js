@@ -7,19 +7,20 @@ import { Link as LinkScroll } from 'react-scroll';
 import { animateScroll as ScrollToTop } from 'react-scroll';
 import '../assets/styles/Navbar.css';
 import { useDispatch, useSelector } from 'react-redux';
-import { logOut } from '../store/actionCreators';
-import { AUTHENTICATED } from '../store/actions';
+// import { logOut } from '../store/actionCreators';
+// import { AUTHENTICATED } from '../store/actions';
 import history from '../history';
+import { LOGOUT } from '../store/toolkit/slices/generalSlice';
 
 function Navbar({ toggle }) {
   const dispatch = useDispatch();
 
-  let recentUser = useSelector((state) => state.user);
+  let recentUser = useSelector((state) => state.general.user);
   if (recentUser === null || recentUser === undefined) {
     recentUser = {};
   }
 
-  const status = useSelector((state) => state.status);
+  const status = useSelector((state) => state.general.status);
 
   const { photoUrl, name, _id, role } = recentUser;
 
@@ -39,7 +40,7 @@ function Navbar({ toggle }) {
   }, [isMobile]);
 
   const handleLogOut = () => {
-    dispatch(logOut());
+    dispatch(LOGOUT());
   };
 
   useEffect(() => {
@@ -57,7 +58,7 @@ function Navbar({ toggle }) {
             ADOGTA
           </Link>
 
-          {status === AUTHENTICATED ? (
+          {status === 'AUTHENTICATED' ? (
             <Link
               className='navBar__container--profilePicWrapper1'
               to={!isMobile && `/${_id}/profile`}>
@@ -105,7 +106,7 @@ function Navbar({ toggle }) {
           <ul className='navBar__container--navMenu2'>
             <li
               className={
-                status === AUTHENTICATED
+                status === 'AUTHENTICATED'
                   ? 'navBar__container--navMenu2--hide'
                   : 'navBar__container--navItem2'
               }>
@@ -118,7 +119,7 @@ function Navbar({ toggle }) {
             </li>{' '}
             <li
               className={
-                status === AUTHENTICATED && role === 'foundation'
+                status === 'AUTHENTICATED' && role === 'foundation'
                   ? 'navBar__container--navItem2'
                   : 'navBar__container--navMenu2--hide'
               }>
@@ -131,7 +132,7 @@ function Navbar({ toggle }) {
             </li>
             <li
               className={
-                status === AUTHENTICATED && role === 'admin'
+                status === 'AUTHENTICATED' && role === 'admin'
                   ? 'navBar__container--navItem2'
                   : 'navBar__container--navMenu2--hide'
               }>
@@ -141,7 +142,7 @@ function Navbar({ toggle }) {
             </li>
             <li
               className={
-                status === AUTHENTICATED && role === 'user'
+                status === 'AUTHENTICATED' && role === 'user'
                   ? 'navBar__container--navItem2'
                   : 'navBar__container--navMenu2--hide'
               }>
@@ -154,7 +155,7 @@ function Navbar({ toggle }) {
             </li>
             <li
               className={
-                status === AUTHENTICATED && role === 'admin'
+                status === 'AUTHENTICATED' && role === 'admin'
                   ? 'navBar__container--navItem2'
                   : 'navBar__container--navMenu2--hide'
               }>
@@ -164,7 +165,7 @@ function Navbar({ toggle }) {
             </li>
             <li
               className={
-                status === AUTHENTICATED
+                status === 'AUTHENTICATED'
                   ? 'navBar__container--navItem2'
                   : 'navBar__container--navMenu2--hide'
               }>
@@ -178,7 +179,7 @@ function Navbar({ toggle }) {
           </ul>
 
           <nav className='navBar__container--nav'>
-            {status === AUTHENTICATED ? (
+            {status === 'AUTHENTICATED' ? (
               <Link
                 className='navBar__container--profilePicWrapper'
                 to={`/${_id}/profile`}>

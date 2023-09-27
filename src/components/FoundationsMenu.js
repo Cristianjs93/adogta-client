@@ -2,6 +2,8 @@ import FoundationsImage from '../components/FoundationsImage';
 import customAxios from '../axios';
 import { useState, useEffect } from 'react';
 import Home from '../pages/Home';
+import { selectGeneral } from '../store/toolkit/slices/generalSlice';
+import { useSelector } from 'react-redux';
 
 const FoundationsMenu = () => {
   const [foundations, setFoundations] = useState([]);
@@ -11,6 +13,9 @@ const FoundationsMenu = () => {
   const [page, setPage] = useState(1);
   const route = customAxios.defaults.baseURL + '/foundations?page=';
   const foundationsPerPage = 10;
+
+  const general = useSelector((state) => state);
+  const generalTK = useSelector(selectGeneral);
 
   function NextPage(route, page) {
     customAxios
@@ -62,6 +67,8 @@ const FoundationsMenu = () => {
 
   return (
     <>
+      <button onClick={() => console.log(general)}>general</button>
+      <button onClick={() => console.log(generalTK)}>general TK</button>
       <h1 className='title-foundations'> Foundations </h1>
 
       <div className='search-foundations'>
