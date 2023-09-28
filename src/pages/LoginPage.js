@@ -2,7 +2,7 @@ import { useState, useRef, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import '../assets/styles/LoginPage.css';
 import { useSelector, useDispatch } from 'react-redux';
-import { resetError } from '../store/actionCreators';
+import { resetError } from '../store/toolkit/slices/generalSlice';
 import { authUser } from '../store/toolkit/slices/generalSlice';
 import history from '../history';
 
@@ -19,7 +19,7 @@ const LoginPage = () => {
     dispatch(resetError());
   }, [dispatch]);
 
-  const error = useSelector((state) => state.error);
+  const error = useSelector((state) => state.general.error);
 
   const handleChange = (event) => {
     setFormState((formState) => ({

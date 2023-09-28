@@ -16,6 +16,24 @@ const initialState = {
   foundation: {},
 };
 
+export const verifiedEmail = createAsyncThunk(
+  'user/verifiedEmail',
+  async (token) => {
+    try {
+      const response = await axios.get(`/verified/${token}`);
+
+      localStorage.setItem('AUTHORIZATION', response.data.token);
+
+      axios.defaults.headers.common['Authorization'] =
+        localStorage.getItem('AUTHORIZATION');
+
+      return response.data;
+    } catch (e) {
+      return e.message;
+    }
+  }
+);
+
 export const authUser = createAsyncThunk(
   'user/authUser',
   async ({ email, password }) => {
@@ -69,6 +87,31 @@ export const listPets = createAsyncThunk(
   }
 );
 
+export const addPets = createAsyncThunk(
+  'pets/addPets',
+  async ({ foundationId, photoUrl, petName, petAge, petDescription }) => {
+    try {
+      const formData = new FormData();
+      formData.append('name', petName);
+      formData.append('age', petAge);
+      formData.append('description', petDescription);
+      photoUrl.forEach((image, index) => {
+        formData.append(`photoUrl_${index}`, image);
+      });
+      const response = await axios.post(
+        `/foundations/${foundationId}/pets`,
+        formData,
+        {
+          headers: { 'Content-Type': 'multipart/form-data' },
+        }
+      );
+      return response.data;
+    } catch (e) {
+      return e.message;
+    }
+  }
+);
+
 export const listFoundationRequests = createAsyncThunk(
   'foundations/listFoundationRequests',
   async (foundationId) => {
@@ -80,42 +123,43 @@ export const listFoundationRequests = createAsyncThunk(
     }
   }
 );
+
 export const generalSlice = createSlice({
   name: 'general',
   initialState,
   reducers: {
-    LOGIN_USER: (state, action) => {
-      const { _id, name, email, role, address, photoUrl, phoneNumber } =
-        action.payload;
+    // LOGIN_USER: (state, action) => {
+    //   const { _id, name, email, role, address, photoUrl, phoneNumber } =
+    //     action.payload;
+    //   return {
+    //     ...state,
+    //     user: { _id, name, email, role, address, photoUrl, phoneNumber },
+    //     status: 'AUTHENTICATED',
+    //     error: '',
+    //   };
+    // },
+    resetError: (state) => {
       return {
         ...state,
-        user: { _id, name, email, role, address, photoUrl, phoneNumber },
-        status: 'AUTHENTICATED',
         error: '',
       };
     },
-    RESET_ERROR: (state) => {
-      return {
-        ...state,
-        error: '',
-      };
-    },
-    ADD_PETS: (state, action) => {
-      return {
-        ...state,
-        pets: action.payload,
-      };
-    },
-    SET_PETS: (state, action) => {
-      return {
-        ...state,
-        pets: action.payload.pets,
-        petListInfo: {
-          count: action.payload.count,
-          page: +action.payload.page,
-        },
-      };
-    },
+    // ADD_PETS: (state, action) => {
+    //   return {
+    //     ...state,
+    //     pets: action.payload,
+    //   };
+    // },
+    // SET_PETS: (state, action) => {
+    //   return {
+    //     ...state,
+    //     pets: action.payload.pets,
+    //     petListInfo: {
+    //       count: action.payload.count,
+    //       page: +action.payload.page,
+    //     },
+    //   };
+    // },
     DELETE_PET: (state, action) => {
       return {
         ...state,
@@ -161,12 +205,12 @@ export const generalSlice = createSlice({
         adoptionRequests: action.payload,
       };
     },
-    LIST_FOUNDATION_REQUESTS: (state, action) => {
-      return {
-        ...state,
-        foundationRequests: action.payload,
-      };
-    },
+    // LIST_FOUNDATION_REQUESTS: (state, action) => {
+    //   return {
+    //     ...state,
+    //     foundationRequests: action.payload,
+    //   };
+    // },
     UPDATE_REQUEST: (state, action) => {
       return {
         ...state,
@@ -217,6 +261,19 @@ export const generalSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
+      .addCase(verifiedEmail.pending, (state) => {
+        state.status = 'LOADING';
+      })
+      .addCase(verifiedEmail.fulfilled, (state, { payload }) => {
+        state.status = 'AUTHENTICATED';
+        const { _id, name, email, role, address, photoUrl, phoneNumber } =
+          payload;
+        state.user = { _id, name, email, role, address, photoUrl, phoneNumber };
+      })
+      .addCase(verifiedEmail.rejected, (state, { error }) => {
+        state.status = 'NOT_AUTHENTICATED';
+        state.error = error.message;
+      })
       .addCase(authUser.pending, (state) => {
         state.status = 'LOADING';
       })
@@ -254,6 +311,13 @@ export const generalSlice = createSlice({
       .addCase(listPets.rejected, (state, { error }) => {
         state.error = error.message;
       })
+      .addCase(addPets.pending, () => {})
+      .addCase(addPets.fulfilled, (state, { payload }) => {
+        state.pets = payload;
+      })
+      .addCase(addPets.rejected, (state, { error }) => {
+        state.error = error.message;
+      })
       .addCase(listFoundationRequests.pending, () => {})
       .addCase(listFoundationRequests.fulfilled, (state, { payload }) => {
         state.foundationRequests = payload;
@@ -266,7 +330,7 @@ export const generalSlice = createSlice({
 
 export const {
   LOGIN_USER,
-  RESET_ERROR,
+  resetError,
   ADD_PETS,
   SET_PETS,
   DELETE_PET,
