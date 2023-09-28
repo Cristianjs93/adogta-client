@@ -1,14 +1,14 @@
-import React, { useEffect, useState } from "react";
-import "../../assets/styles/Slider2.css";
-import { FaArrowAltCircleRight, FaArrowAltCircleLeft } from "react-icons/fa";
-import { useDispatch, useSelector } from "react-redux";
-import { useParams } from "react-router";
-import { selectPet } from "../../store/actionCreators";
+import React, { useEffect, useState } from 'react';
+import '../../assets/styles/Slider2.css';
+import { FaArrowAltCircleRight, FaArrowAltCircleLeft } from 'react-icons/fa';
+import { useDispatch, useSelector } from 'react-redux';
+import { useParams } from 'react-router';
+import { selectPet } from '../../store/actionCreators';
 
 const Slider2 = () => {
   const dispatch = useDispatch();
   const { id: petId } = useParams();
-  const statePet = useSelector((state) => state.selectedPet);
+  const statePet = useSelector((state) => state.general.selectedPet);
   const [pet, setPet] = useState([]);
 
   useEffect(() => {
@@ -34,23 +34,22 @@ const Slider2 = () => {
   }
 
   return (
-    <section className="slider2">
+    <section className='slider2'>
       <FaArrowAltCircleLeft
-        className="slider__left-arrow2"
+        className='slider__left-arrow2'
         onClick={prevSlide}
       />
       <FaArrowAltCircleRight
-        className="slider__right-arrow2"
+        className='slider__right-arrow2'
         onClick={nextSlide}
       />
       {pet.photoUrl.map((photo, index) => {
         return (
           <div
-            className={index === current ? "slider__active2" : "slider__slide2"}
-            key={index}
-          >
+            className={index === current ? 'slider__active2' : 'slider__slide2'}
+            key={index}>
             {index === current && (
-              <img src={photo} alt={pet.name} className="slider__img2" />
+              <img src={photo} alt={pet.name} className='slider__img2' />
             )}
           </div>
         );

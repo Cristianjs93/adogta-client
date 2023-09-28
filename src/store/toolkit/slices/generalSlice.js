@@ -112,6 +112,18 @@ export const addPets = createAsyncThunk(
   }
 );
 
+export const deletePet = createAsyncThunk('pets/seletePet', async (petId) => {
+  try {
+    const response = await axios.delete(`/pets/${petId}`);
+    return response.data;
+
+    //setFilteredPets(response.data);
+    // dispatch({ type: DELETE_PET, payload: petId });
+  } catch (e) {
+    return e.message;
+  }
+});
+
 export const listFoundationRequests = createAsyncThunk(
   'foundations/listFoundationRequests',
   async (foundationId) => {
@@ -160,12 +172,12 @@ export const generalSlice = createSlice({
     //     },
     //   };
     // },
-    DELETE_PET: (state, action) => {
-      return {
-        ...state,
-        pets: state.pets.filter((pet) => pet._id !== action.payload),
-      };
-    },
+    // DELETE_PET: (state, action) => {
+    //   return {
+    //     ...state,
+    //     pets: state.pets.filter((pet) => pet._id !== action.payload),
+    //   };
+    // },
     REGISTER_USER: (state, action) => {
       return {
         ...state,
@@ -316,6 +328,13 @@ export const generalSlice = createSlice({
         state.pets = payload;
       })
       .addCase(addPets.rejected, (state, { error }) => {
+        state.error = error.message;
+      })
+      .addCase(deletePet.pending, () => {})
+      .addCase(deletePet.fulfilled, (state, { payload }) => {
+        state.pets = state.pets.filter((pet) => pet._id !== payload);
+      })
+      .addCase(deletePet.rejected, (state, { error }) => {
         state.error = error.message;
       })
       .addCase(listFoundationRequests.pending, () => {})

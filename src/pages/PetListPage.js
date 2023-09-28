@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { useParams, useLocation } from 'react-router';
 import { Link } from 'react-router-dom';
 import { FaPlusCircle } from 'react-icons/fa';
@@ -19,6 +19,8 @@ const PetListPage = () => {
   const { search } = useLocation();
   const { id: foundationId } = useParams();
 
+  const [petsChanges, setPetsChanges] = useState(true);
+
   const general = useSelector((state) => state.general);
   const { pets, petListInfo } = useSelector((state) => state.general);
   const { user } = useSelector((state) => state.general);
@@ -31,7 +33,7 @@ const PetListPage = () => {
   useEffect(() => {
     dispatch(listPets({ initPage, foundationId }));
     dispatch(listFoundationRequests(foundationId));
-  }, [foundationId, dispatch, initPage]);
+  }, [foundationId, dispatch, initPage, petsChanges]);
 
   //checking the role and the id to show or hide some buttons and select som redirects
   const isFoundation = user.role === 'foundation' && user._id === foundationId;
@@ -63,6 +65,10 @@ const PetListPage = () => {
     });
   };
 
+  const handlePetsChange = () => {
+    setPetsChanges(!petsChanges);
+  };
+
   return (
     <div className='background-container'>
       {!loading && (
@@ -76,6 +82,7 @@ const PetListPage = () => {
                   {...item}
                   redirectUrl={redirectUrl}
                   isFoundation={isFoundation}
+                  onPetsChange={handlePetsChange}
                 />
               ))
             ) : isFoundation ? (

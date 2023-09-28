@@ -2,11 +2,15 @@ import { useState } from 'react';
 import { withRouter } from 'react-router-dom';
 import { FaMinus } from 'react-icons/fa';
 import { IconContext } from 'react-icons';
-import { deletePet } from '../store/actionCreators';
+// import { deletePet } from '../store/actionCreators';
+import { deletePet } from '../store/toolkit/slices/generalSlice';
 import { useDispatch, useSelector } from 'react-redux';
 
 import CardImage from './CardImage';
 import CardModal from './CardModal';
+
+import withReactContent from 'sweetalert2-react-content';
+import Swal from 'sweetalert2';
 
 import '../assets/styles/PetCard.css';
 
@@ -20,6 +24,7 @@ const PetCard = (props) => {
     redirectUrl,
     age,
     isFoundation,
+    onPetsChange,
   } = props;
   const dispatch = useDispatch();
 
@@ -30,6 +35,8 @@ const PetCard = (props) => {
   const [isOpen, setIsOpen] = useState(false);
 
   const [modalIsOpen, setModalIsOpen] = useState(false);
+
+  const MySwal = withReactContent(Swal);
 
   const handleOpenImage = () => {
     setIsOpen(!isOpen);
@@ -45,6 +52,11 @@ const PetCard = (props) => {
 
   const handleDeletePet = async (_id) => {
     dispatch(deletePet(_id));
+    onPetsChange();
+    MySwal.fire({
+      title: <strong>Pet deleted successfully!</strong>,
+      icon: 'success',
+    });
   };
 
   return (
