@@ -2,7 +2,6 @@ import { useState } from 'react';
 import { withRouter } from 'react-router-dom';
 import { FaMinus } from 'react-icons/fa';
 import { IconContext } from 'react-icons';
-// import { deletePet } from '../store/actionCreators';
 import { deletePet } from '../store/toolkit/slices/generalSlice';
 import { useDispatch, useSelector } from 'react-redux';
 

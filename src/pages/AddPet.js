@@ -13,6 +13,7 @@ function AddPet() {
   const dispatch = useDispatch();
 
   const error = useSelector((state) => state.general.error);
+  const general = useSelector((state) => state.general);
 
   useEffect(() => {
     dispatch(resetError());
@@ -143,6 +144,7 @@ function AddPet() {
 
   return (
     <section className='registerPets'>
+      <button onClick={() => console.log(general)}>general</button>
       <div className='registerPets__container'>
         <h2 className='registerPets__container--title'>Add Pet's</h2>
         <form onSubmit={submit} data-testid='form'>

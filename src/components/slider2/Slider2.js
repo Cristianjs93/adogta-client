@@ -3,7 +3,7 @@ import '../../assets/styles/Slider2.css';
 import { FaArrowAltCircleRight, FaArrowAltCircleLeft } from 'react-icons/fa';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router';
-import { selectPet } from '../../store/actionCreators';
+import { selectPet } from '../../store/toolkit/slices/generalSlice';
 
 const Slider2 = () => {
   const dispatch = useDispatch();

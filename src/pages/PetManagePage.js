@@ -1,10 +1,12 @@
-import { useEffect } from "react";
-import { useParams } from "react-router";
-import AdoptionRequest from "../components/AdoptionRequest";
-import { useSelector, useDispatch } from "react-redux";
-import { selectPet, updateRequest, bulkReject } from "../store/actionCreators";
+import { useEffect } from 'react';
+import { useParams } from 'react-router';
+import AdoptionRequest from '../components/AdoptionRequest';
+import { useSelector, useDispatch } from 'react-redux';
+import { updateRequest, bulkReject } from '../store/actionCreators';
 
-import "../assets/styles/PetManagePage.css";
+import { selectPet } from '../store/toolkit/slices/generalSlice';
+
+import '../assets/styles/PetManagePage.css';
 
 const PetManagePage = () => {
   const { id: petId } = useParams();
@@ -15,51 +17,50 @@ const PetManagePage = () => {
     dispatch(selectPet(petId));
   }, [dispatch, petId]);
 
-  const pet = useSelector((state) => state.selectedPet);
-  const requests = useSelector((state) => state.adoptionRequests) || [];
+  const pet = useSelector((state) => state.general.selectedPet);
+  const requests = useSelector((state) => state.general.adoptionRequests) || [];
 
   // Updating a state
   const handleReject = (id) => () => {
-    dispatch(updateRequest(petId, id, "rejected"));
+    dispatch(updateRequest(petId, id, 'rejected'));
   };
 
   const handleApprove = (id) => {
-    dispatch(updateRequest(petId, id, "approved"));
+    dispatch(updateRequest(petId, id, 'approved'));
     dispatch(bulkReject(petId, id));
   };
 
   return (
-    <div className="background-container" data-testid="petManagePage">
+    <div className='background-container' data-testid='petManagePage'>
       {!!pet.photoUrl ? (
         <>
-          <section className="pet-info">
+          <section className='pet-info'>
             <img
-              className="pet-info__image"
+              className='pet-info__image'
               src={pet.photoUrl[0]}
               alt={pet.name}
             />
-            <article className="pet-info__text">
+            <article className='pet-info__text'>
               <h2>{pet.name}</h2>
-              <p className="pet-info__text--label">
+              <p className='pet-info__text--label'>
                 <span>Age:</span> {pet.age}
               </p>
-              <p className="pet-info__text--description">{pet.description}</p>
+              <p className='pet-info__text--description'>{pet.description}</p>
             </article>
           </section>
-          <section className="requests-list">
+          <section className='requests-list'>
             {requests.length > 0 &&
               requests.map((req, idx) => (
                 <AdoptionRequest
                   key={req._id}
                   request={req}
                   handleReject={handleReject}
-                  handleApprove={handleApprove}
-                ></AdoptionRequest>
+                  handleApprove={handleApprove}></AdoptionRequest>
               ))}
           </section>
         </>
       ) : (
-        <h1 className="no-pets-message">This pet doesn't exist</h1>
+        <h1 className='no-pets-message'>This pet doesn't exist</h1>
       )}
     </div>
   );

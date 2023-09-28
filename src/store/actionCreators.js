@@ -1,4 +1,4 @@
-import axios from "../axios";
+import axios from '../axios';
 import {
   ERROR,
   LOGIN_USER,
@@ -18,10 +18,10 @@ import {
   LIST_USER_REQUESTS,
   RESET_ERROR,
   SET_FOUNDATION,
-} from "./actions";
-import history from "../history";
-import Swal from "sweetalert2";
-import withReactContent from "sweetalert2-react-content";
+} from './actions';
+import history from '../history';
+import Swal from 'sweetalert2';
+import withReactContent from 'sweetalert2-react-content';
 
 export const resetError = () => {
   return {
@@ -35,10 +35,10 @@ export const verifiedEmail = (token) => {
       const response = await axios.get(`/verified/${token}`);
 
       localStorage.setItem(AUTHORIZATION, response.data.token);
-      axios.defaults.headers.common["Authorization"] =
+      axios.defaults.headers.common['Authorization'] =
         localStorage.getItem(AUTHORIZATION);
       dispatch({ type: LOGIN_USER, payload: response.data.user });
-      history.push("/");
+      history.push('/');
     } catch (e) {
       dispatch({ type: ERROR, payload: e.response.data.error });
     }
@@ -47,15 +47,15 @@ export const verifiedEmail = (token) => {
 export const authUser = ({ email, password }) => {
   return async function (dispatch) {
     try {
-      const response = await axios.post("/login", {
+      const response = await axios.post('/login', {
         email: email,
         password: password,
       });
       localStorage.setItem(AUTHORIZATION, response.data.token);
-      axios.defaults.headers.common["Authorization"] =
+      axios.defaults.headers.common['Authorization'] =
         localStorage.getItem(AUTHORIZATION);
       dispatch({ type: LOGIN_USER, payload: response.data });
-      history.push("/");
+      history.push('/');
     } catch (e) {
       dispatch({ type: ERROR, payload: e.response.data.error });
     }
@@ -65,9 +65,9 @@ export const authUser = ({ email, password }) => {
 export const loadUser = () => {
   return async function (dispatch) {
     try {
-      axios.defaults.headers.common["Authorization"] =
+      axios.defaults.headers.common['Authorization'] =
         localStorage.getItem(AUTHORIZATION);
-      const response = await axios.get("/me");
+      const response = await axios.get('/me');
       dispatch({ type: LOGIN_USER, payload: response.data });
     } catch (e) {
       localStorage.removeItem(AUTHORIZATION);
@@ -85,7 +85,7 @@ export const listPets = (foundationId, page) => {
   return async function (dispatch) {
     try {
       let response = await axios.get(
-        `/foundations/${foundationId}/pets?page=${page}`,
+        `/foundations/${foundationId}/pets?page=${page}`
       );
       dispatch({ type: SET_PETS, payload: response.data });
     } catch (e) {
@@ -104,15 +104,15 @@ export const addPets = ({
   return async function (dispatch) {
     try {
       const formData = new FormData();
-      formData.append("name", petName);
-      formData.append("age", petAge);
-      formData.append("description", petDescription);
+      formData.append('name', petName);
+      formData.append('age', petAge);
+      formData.append('description', petDescription);
       photoUrl.forEach((image) => {
-        formData.append("photoUrl", image);
+        formData.append('photoUrl', image);
       });
       const response = await axios.post(
         `/foundations/${foundationId}/pets`,
-        formData,
+        formData
       );
       dispatch({ type: ADD_PETS, payload: response.data });
       history.push(`/foundations/${foundationId}/pets`);
@@ -191,7 +191,7 @@ export const registerUser = ({ name, email, password, role }) => {
       MySwal.fire({
         title: <strong>Please verify your email!</strong>,
         html: <i>Check your inbox!</i>,
-        icon: "success",
+        icon: 'success',
       });
     };
 
@@ -199,11 +199,11 @@ export const registerUser = ({ name, email, password, role }) => {
       MySwal.fire({
         title: <strong>Oops...!</strong>,
         html: <i>Email is already taken!</i>,
-        icon: "error",
+        icon: 'error',
       });
     };
     try {
-      const response = await axios.post("/signup", {
+      const response = await axios.post('/signup', {
         name: name,
         email: email,
         password: password,
@@ -211,7 +211,7 @@ export const registerUser = ({ name, email, password, role }) => {
       });
 
       dispatch({ type: REGISTER_USER, payload: response.data.user });
-      history.push("/");
+      history.push('/');
       emailVerificationMessage();
     } catch (e) {
       dispatch({ type: ERROR, payload: e.response.data.error });
@@ -233,14 +233,14 @@ export const updateUserProfile = ({
   return async function (dispatch) {
     try {
       const formData = new FormData();
-      formData.append("image", imageFile);
-      formData.append("_id", _id);
-      formData.append("name", name);
-      formData.append("role", role);
-      address && formData.append("address", address);
-      formData.append("email", email);
-      phoneNumber && formData.append("phoneNumber", phoneNumber);
-      formData.append("photoUrl", photoUrl);
+      formData.append('image', imageFile);
+      formData.append('_id', _id);
+      formData.append('name', name);
+      formData.append('role', role);
+      address && formData.append('address', address);
+      formData.append('email', email);
+      phoneNumber && formData.append('phoneNumber', phoneNumber);
+      formData.append('photoUrl', photoUrl);
       const response = await axios.put(`/${_id}/profile`, formData);
       dispatch({ type: UPDATE_PROFILE, payload: response.data });
 

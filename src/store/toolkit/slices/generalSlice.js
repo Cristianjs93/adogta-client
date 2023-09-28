@@ -116,9 +116,25 @@ export const deletePet = createAsyncThunk('pets/seletePet', async (petId) => {
   try {
     const response = await axios.delete(`/pets/${petId}`);
     return response.data;
+  } catch (e) {
+    return e.message;
+  }
+});
 
-    //setFilteredPets(response.data);
-    // dispatch({ type: DELETE_PET, payload: petId });
+export const selectPet = createAsyncThunk('pets/selectPet', async (petId) => {
+  try {
+    const [petResponse, requestsResponse] = await Promise.all([
+      axios.get(`/pets/${petId}`),
+      axios.get(`/pets/${petId}/requests`),
+    ]);
+
+    return { pet: petResponse.data, adoptionRequests: requestsResponse.data };
+
+    // let response = await axios.get(`/pets/${petId}`);
+
+    // let requests = await axios.get(`/pets/${petId}/requests`);
+
+    // return response.data;
   } catch (e) {
     return e.message;
   }
@@ -205,18 +221,18 @@ export const generalSlice = createSlice({
         foundationRequests: [],
       };
     },
-    SELECT_PET: (state, action) => {
-      return {
-        ...state,
-        selectedPet: action.payload,
-      };
-    },
-    LIST_REQUESTS: (state, action) => {
-      return {
-        ...state,
-        adoptionRequests: action.payload,
-      };
-    },
+    // SELECT_PET: (state, action) => {
+    //   return {
+    //     ...state,
+    //     selectedPet: action.payload,
+    //   };
+    // },
+    // LIST_REQUESTS: (state, action) => {
+    //   return {
+    //     ...state,
+    //     adoptionRequests: action.payload,
+    //   };
+    // },
     // LIST_FOUNDATION_REQUESTS: (state, action) => {
     //   return {
     //     ...state,
@@ -325,6 +341,7 @@ export const generalSlice = createSlice({
       })
       .addCase(addPets.pending, () => {})
       .addCase(addPets.fulfilled, (state, { payload }) => {
+        console.log(payload);
         state.pets = payload;
       })
       .addCase(addPets.rejected, (state, { error }) => {
@@ -335,6 +352,14 @@ export const generalSlice = createSlice({
         state.pets = state.pets.filter((pet) => pet._id !== payload);
       })
       .addCase(deletePet.rejected, (state, { error }) => {
+        state.error = error.message;
+      })
+      .addCase(selectPet.pending, () => {})
+      .addCase(selectPet.fulfilled, (state, { payload }) => {
+        state.selectedPet = payload.pet;
+        state.adoptionRequests = payload.adoptionRequests;
+      })
+      .addCase(selectPet.rejected, (state, { error }) => {
         state.error = error.message;
       })
       .addCase(listFoundationRequests.pending, () => {})
