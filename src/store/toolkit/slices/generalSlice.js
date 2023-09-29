@@ -166,6 +166,18 @@ export const createAdoption = createAsyncThunk(
   }
 );
 
+export const listUserRequests = createAsyncThunk(
+  'user/listuserRequests',
+  async (userId) => {
+    try {
+      let response = await axios.get(`${userId}/requests`);
+      return response.data;
+    } catch (e) {
+      return e.message;
+    }
+  }
+);
+
 export const generalSlice = createSlice({
   name: 'general',
   initialState,
@@ -288,12 +300,12 @@ export const generalSlice = createSlice({
     //     errStatus: 'FINISHED',
     //   };
     // },
-    LIST_USER_REQUESTS: (state, action) => {
-      return {
-        ...state,
-        userRequests: action.payload,
-      };
-    },
+    // LIST_USER_REQUESTS: (state, action) => {
+    //   return {
+    //     ...state,
+    //     userRequests: action.payload,
+    //   };
+    // },
     setFoundation: (state, action) => {
       return {
         ...state,
@@ -390,6 +402,13 @@ export const generalSlice = createSlice({
         state.errStatus = 'FINISHED';
       })
       .addCase(createAdoption.rejected, (state, { error }) => {
+        state.error = error.message;
+      })
+      .addCase(listUserRequests.pending, () => {})
+      .addCase(listUserRequests.fulfilled, (state, { payload }) => {
+        state.userRequests = payload;
+      })
+      .addCase(listUserRequests.rejected, (state, { error }) => {
         state.error = error.message;
       });
   },
