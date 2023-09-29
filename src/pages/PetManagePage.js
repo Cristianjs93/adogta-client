@@ -2,7 +2,10 @@ import { useEffect } from 'react';
 import { useParams } from 'react-router';
 import AdoptionRequest from '../components/AdoptionRequest';
 import { useSelector, useDispatch } from 'react-redux';
-import { updateRequest, bulkReject } from '../store/actionCreators';
+import {
+  updateRequest,
+  bulkReject,
+} from '../store/toolkit/slices/generalSlice';
 
 import { selectPet } from '../store/toolkit/slices/generalSlice';
 
@@ -21,13 +24,13 @@ const PetManagePage = () => {
   const requests = useSelector((state) => state.general.adoptionRequests) || [];
 
   // Updating a state
-  const handleReject = (id) => () => {
-    dispatch(updateRequest(petId, id, 'rejected'));
+  const handleReject = (requestId) => () => {
+    dispatch(updateRequest({ petId, requestId, status: 'rejected' }));
   };
 
-  const handleApprove = (id) => {
-    dispatch(updateRequest(petId, id, 'approved'));
-    dispatch(bulkReject(petId, id));
+  const handleApprove = (requestId) => {
+    dispatch(updateRequest({ petId, requestId, status: 'approved' }));
+    dispatch(bulkReject(petId, requestId));
   };
 
   return (

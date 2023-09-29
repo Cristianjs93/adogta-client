@@ -134,6 +134,32 @@ export const selectPet = createAsyncThunk('pets/selectPet', async (petId) => {
   }
 });
 
+export const updateRequest = createAsyncThunk(
+  'pets/updateRequest',
+  async ({ petId, requestId, status }) => {
+    try {
+      const response = await axios.put(`/pets/${petId}/requests/${requestId}`, {
+        responseStatus: status,
+      });
+      return response.data;
+    } catch (e) {
+      return e.message;
+    }
+  }
+);
+
+export const bulkReject = createAsyncThunk(
+  'pets/bulkReject',
+  async (petId, _id) => {
+    try {
+      const response = await axios.put(`/pets/${petId}/requests`, { _id });
+      return response.data;
+    } catch (e) {
+      return e.message;
+    }
+  }
+);
+
 export const listFoundationRequests = createAsyncThunk(
   'foundations/listFoundationRequests',
   async (foundationId) => {
@@ -161,7 +187,7 @@ export const createAdoption = createAsyncThunk(
 
       return response.data;
     } catch (e) {
-      return e.message;
+      return e.response.data.error;
     }
   }
 );
@@ -196,6 +222,7 @@ export const generalSlice = createSlice({
       return {
         ...state,
         error: '',
+        errStatus: 'INITIALIZED',
       };
     },
     // ADD_PETS: (state, action) => {
@@ -265,31 +292,31 @@ export const generalSlice = createSlice({
     //     foundationRequests: action.payload,
     //   };
     // },
-    UPDATE_REQUEST: (state, action) => {
-      return {
-        ...state,
-        adoptionRequests: state.adoptionRequests.map((req) =>
-          req._id === action.payload._id
-            ? { ...req, responseStatus: action.payload.responseStatus }
-            : req
-        ),
-      };
-    },
-    BULK_REJECT_REQUESTS: (state, action) => {
-      return {
-        ...state,
-        adoptionRequests: state.adoptionRequests.map((req) =>
-          req._id !== action.payload
-            ? { ...req, responseStatus: 'rejected' }
-            : req
-        ),
-      };
-    },
+    // UPDATE_REQUEST: (state, action) => {
+    //   return {
+    //     ...state,
+    //     adoptionRequests: state.adoptionRequests.map((req) =>
+    //       req._id === action.payload._id
+    //         ? { ...req, responseStatus: action.payload.responseStatus }
+    //         : req
+    //     ),
+    //   };
+    // },
+    // BULK_REJECT_REQUESTS: (state, action) => {
+    //   return {
+    //     ...state,
+    //     adoptionRequests: state.adoptionRequests.map((req) =>
+    //       req._id !== action.payload
+    //         ? { ...req, responseStatus: 'rejected' }
+    //         : req
+    //     ),
+    //   };
+    // },
     ERROR: (state, action) => {
       return {
         ...state,
         error: action.payload,
-        errStatus: 'FINISHED',
+        errStatus: 'INITIALIZED',
       };
     },
     // CREATE_ADOPTION_REQUEST: (state, action) => {
@@ -367,7 +394,6 @@ export const generalSlice = createSlice({
       })
       .addCase(addPets.pending, () => {})
       .addCase(addPets.fulfilled, (state, { payload }) => {
-        console.log(payload);
         state.pets = payload;
       })
       .addCase(addPets.rejected, (state, { error }) => {
@@ -388,6 +414,26 @@ export const generalSlice = createSlice({
       .addCase(selectPet.rejected, (state, { error }) => {
         state.error = error.message;
       })
+      .addCase(updateRequest.pending, () => {})
+      .addCase(updateRequest.fulfilled, (state, { payload }) => {
+        state.adoptionRequests = state.adoptionRequests.map((req) =>
+          req._id === payload._id
+            ? { ...req, responseStatus: payload.responseStatus }
+            : req
+        );
+      })
+      .addCase(updateRequest.rejected, (state, { error }) => {
+        state.error = error.message;
+      })
+      .addCase(bulkReject.pending, () => {})
+      .addCase(bulkReject.fulfilled, (state, { payload }) => {
+        state.adoptionRequests = state.adoptionRequests.map((req) =>
+          req._id !== payload ? { ...req, responseStatus: 'rejected' } : req
+        );
+      })
+      .addCase(bulkReject.rejected, (state, { error }) => {
+        state.error = error.message;
+      })
       .addCase(listFoundationRequests.pending, () => {})
       .addCase(listFoundationRequests.fulfilled, (state, { payload }) => {
         state.foundationRequests = payload;
@@ -397,9 +443,14 @@ export const generalSlice = createSlice({
       })
       .addCase(createAdoption.pending, () => {})
       .addCase(createAdoption.fulfilled, (state, { payload }) => {
-        state.adoptionRequests = payload;
-        state.error = '';
-        state.errStatus = 'FINISHED';
+        if (typeof payload === 'string') {
+          state.error = payload;
+          state.errStatus = 'FINISHED';
+        } else {
+          state.adoptionRequests = payload;
+          state.error = '';
+          state.errStatus = 'FINISHED';
+        }
       })
       .addCase(createAdoption.rejected, (state, { error }) => {
         state.error = error.message;

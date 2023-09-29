@@ -10,6 +10,8 @@ const PetFormSignUp = ({ submitForm }) => {
   );
 
   const statePet = useSelector((state) => state.general.selectedPet);
+  const general = useSelector((state) => state.general);
+
   const [pet, setPet] = useState({
     name: '',
     photoUrl: '',
@@ -21,6 +23,7 @@ const PetFormSignUp = ({ submitForm }) => {
 
   return (
     <div className='petform__rightContainer' data-testid='petForm'>
+      <button onClick={() => console.log(general)}>general</button>
       <form
         className='petform__rightContainerForm'
         onSubmit={handleSubmit}

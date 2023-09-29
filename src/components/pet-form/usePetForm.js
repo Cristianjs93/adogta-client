@@ -1,13 +1,15 @@
-import { useState, useEffect } from "react";
-import { useParams } from "react-router";
+import { useState, useEffect } from 'react';
+import { useSelector } from 'react-redux';
+import { useParams } from 'react-router';
 
 const usePetForm = (submitForm, validateInfo) => {
   const { id: petId } = useParams();
+  const { _id: userId } = useSelector((state) => state.general.user);
 
   const [values, setValues] = useState({
-    address: "",
-    phoneNumber: "",
-    description: "",
+    address: '',
+    phoneNumber: '',
+    description: '',
   });
   const [errors, setErrors] = useState({});
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -18,6 +20,7 @@ const usePetForm = (submitForm, validateInfo) => {
       ...values,
       [name]: value,
       petId,
+      userId,
     });
   };
 
