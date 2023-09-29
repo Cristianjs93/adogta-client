@@ -129,12 +129,6 @@ export const selectPet = createAsyncThunk('pets/selectPet', async (petId) => {
     ]);
 
     return { pet: petResponse.data, adoptionRequests: requestsResponse.data };
-
-    // let response = await axios.get(`/pets/${petId}`);
-
-    // let requests = await axios.get(`/pets/${petId}/requests`);
-
-    // return response.data;
   } catch (e) {
     return e.message;
   }
@@ -145,6 +139,26 @@ export const listFoundationRequests = createAsyncThunk(
   async (foundationId) => {
     try {
       let response = await axios.get(`/foundations/${foundationId}/requests`);
+
+      return response.data;
+    } catch (e) {
+      return e.message;
+    }
+  }
+);
+
+export const createAdoption = createAsyncThunk(
+  'pets/createAdoption',
+  async ({ petId, userId, description, phoneNumber, address }) => {
+    try {
+      const response = await axios.post(`/pets/${petId}/request`, {
+        petId: petId,
+        userId: userId,
+        description: description,
+        phoneNumber: phoneNumber,
+        address: address,
+      });
+
       return response.data;
     } catch (e) {
       return e.message;
@@ -266,14 +280,14 @@ export const generalSlice = createSlice({
         errStatus: 'FINISHED',
       };
     },
-    CREATE_ADOPTION_REQUEST: (state, action) => {
-      return {
-        ...state,
-        adoptionRequests: action.payload,
-        error: '',
-        errStatus: 'FINISHED',
-      };
-    },
+    // CREATE_ADOPTION_REQUEST: (state, action) => {
+    //   return {
+    //     ...state,
+    //     adoptionRequests: action.payload,
+    //     error: '',
+    //     errStatus: 'FINISHED',
+    //   };
+    // },
     LIST_USER_REQUESTS: (state, action) => {
       return {
         ...state,
@@ -367,6 +381,15 @@ export const generalSlice = createSlice({
         state.foundationRequests = payload;
       })
       .addCase(listFoundationRequests.rejected, (state, { error }) => {
+        state.error = error.message;
+      })
+      .addCase(createAdoption.pending, () => {})
+      .addCase(createAdoption.fulfilled, (state, { payload }) => {
+        state.adoptionRequests = payload;
+        state.error = '';
+        state.errStatus = 'FINISHED';
+      })
+      .addCase(createAdoption.rejected, (state, { error }) => {
         state.error = error.message;
       });
   },

@@ -5,7 +5,8 @@ import PetFormRepeat from './PetFormRepeatjs';
 import '../../assets/styles/PetForm.css';
 import Slider2 from '../slider2/Slider2';
 import { useDispatch, useSelector } from 'react-redux';
-import { createAdoption } from '../../store/actionCreators';
+// import { createAdoption } from '../../store/actionCreators';
+import { createAdoption } from '../../store/toolkit/slices/generalSlice';
 import Spinner from '../../components/Spinner';
 
 const PetForm = () => {
