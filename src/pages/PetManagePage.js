@@ -24,13 +24,13 @@ const PetManagePage = () => {
   const requests = useSelector((state) => state.general.adoptionRequests) || [];
 
   // Updating a state
-  const handleReject = (requestId) => () => {
+  const handleReject = (requestId) => {
     dispatch(updateRequest({ petId, requestId, status: 'rejected' }));
   };
 
   const handleApprove = (requestId) => {
     dispatch(updateRequest({ petId, requestId, status: 'approved' }));
-    dispatch(bulkReject(petId, requestId));
+    dispatch(bulkReject({ petId, requestId }));
   };
 
   return (
@@ -58,7 +58,8 @@ const PetManagePage = () => {
                   key={req._id}
                   request={req}
                   handleReject={handleReject}
-                  handleApprove={handleApprove}></AdoptionRequest>
+                  handleApprove={handleApprove}
+                />
               ))}
           </section>
         </>

@@ -1,44 +1,50 @@
-import { useState } from "react";
+import { useState } from 'react';
 
-import CardModal from "./CardModal";
+import CardModal from './CardModal';
 
-import "../assets/styles/AdoptionRequest.css";
+import '../assets/styles/AdoptionRequest.css';
 
 const AdoptionRequest = ({ request, handleReject, handleApprove }) => {
-  let classStatus = "";
+  let classStatus = '';
   const [modalIsOpen, setModalIsOpen] = useState(false);
+  const [requestResponse, setRequestResponse] = useState('pending');
 
-  const handleOpenModal = () => {
+  const handleRequestResponse = (e) => {
+    const { name } = e.target;
+    setRequestResponse(name);
     setModalIsOpen(!modalIsOpen);
   };
 
-  request.responseStatus === "approved" && (classStatus = "status-green");
+  request.responseStatus === 'approved' && (classStatus = 'status-green');
 
-  request.responseStatus === "rejected" && (classStatus = "status-red");
+  request.responseStatus === 'rejected' && (classStatus = 'status-red');
 
   return (
     <>
-      <div className="request-container" data-testid="requestCard">
+      <div className='request-container' data-testid='requestCard'>
         {!!request.userId.name ? (
-          <h2 className="request-container__name">{request.userId.name}</h2>
+          <h2 className='request-container__name'>{request.userId.name}</h2>
         ) : (
-          <h2 className="request-container__name">{request.petId.name}</h2>
+          <h2 className='request-container__name'>{request.petId.name}</h2>
         )}
-        <div className="request-container__text">{request.description}</div>
-        <div className="request-container__lower-text">
+        <div className='request-container__text'>{request.description}</div>
+        <div className='request-container__lower-text'>
           <p>
-            STATUS:{" "}
+            STATUS:{' '}
             <span className={classStatus}>{request.responseStatus}</span>
           </p>
           {handleApprove && (
-            <div className="request-container__buttons">
-              <button className="button-accept" onClick={handleOpenModal}>
+            <div className='request-container__buttons'>
+              <button
+                name='approve'
+                className='button-accept'
+                onClick={handleRequestResponse}>
                 Approve
               </button>
               <button
-                className="button-reject"
-                onClick={handleReject(request._id)}
-              >
+                name='reject'
+                className='button-reject'
+                onClick={handleRequestResponse}>
                 Reject
               </button>
             </div>
@@ -47,12 +53,13 @@ const AdoptionRequest = ({ request, handleReject, handleApprove }) => {
       </div>
       {modalIsOpen && (
         <CardModal
-          handleOpenModal={handleOpenModal}
           id={request._id}
-          handleConfirm={() => handleApprove(request._id)}
-        >
-          Are you sure you want to approve this request? This action can't be
-          undone
+          onRequestResponse={handleRequestResponse}
+          requestResponse={requestResponse}
+          handleApprove={handleApprove}
+          handleReject={handleReject}>
+          Are you sure you want to {requestResponse} this request? This action
+          can't be undone
         </CardModal>
       )}
     </>

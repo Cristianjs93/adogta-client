@@ -150,9 +150,11 @@ export const updateRequest = createAsyncThunk(
 
 export const bulkReject = createAsyncThunk(
   'pets/bulkReject',
-  async (petId, _id) => {
+  async ({ petId, requestId }) => {
     try {
-      const response = await axios.put(`/pets/${petId}/requests`, { _id });
+      const response = await axios.put(`/pets/${petId}/requests`, {
+        requestId,
+      });
       return response.data;
     } catch (e) {
       return e.message;
