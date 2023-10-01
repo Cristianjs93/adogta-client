@@ -6,6 +6,7 @@ const CardModal = ({
   requestResponse,
   handleApprove,
   handleReject,
+  handleDeletePet,
   children,
 }) => {
   const handleConfirm = (e) => {
@@ -14,6 +15,9 @@ const CardModal = ({
     }
     if (requestResponse === 'reject') {
       handleReject(id);
+    }
+    if (!requestResponse) {
+      handleDeletePet(id);
     }
     onRequestResponse(e);
   };

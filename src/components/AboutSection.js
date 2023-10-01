@@ -29,7 +29,7 @@ const AboutSection = () => {
               <Link
                 className='aboutContainer__wrapper--btnWrap'
                 to={
-                  activeUser.role === 'user'
+                  activeUser.role === 'user' || activeUser.role === null
                     ? '/foundations'
                     : activeUser.role === 'foundation'
                     ? `/foundations/${activeUser._id}/pets`
@@ -37,7 +37,7 @@ const AboutSection = () => {
                       `/${activeUser._id}/profile`
                 }>
                 <button className='aboutContainer__wrapper--button'>
-                  {activeUser.role === 'user'
+                  {activeUser.role === 'user' || activeUser.role === null
                     ? 'FOUNDATIONS'
                     : activeUser.role === 'foundation'
                     ? 'PETS'

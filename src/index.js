@@ -3,16 +3,13 @@ import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import App from './App';
 import './assets/styles/GeneralStyles.css';
-// import createStore from './store/store';
 import store from './store/toolkit/store';
 
 ReactDOM.render(
   <React.StrictMode>
     <Provider store={store}>
-      {/* <Provider store={createStore()}> */}
       <App />
     </Provider>
-    {/* </Provider> */}
   </React.StrictMode>,
   document.getElementById('root')
 );

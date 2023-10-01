@@ -11,6 +11,7 @@ function Home() {
 
   useEffect(() => {
     dispatch(resetError());
+    dispatch(resetError());
   }, [dispatch]);
 
   return (

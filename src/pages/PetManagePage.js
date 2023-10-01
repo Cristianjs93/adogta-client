@@ -53,7 +53,7 @@ const PetManagePage = () => {
           </section>
           <section className='requests-list'>
             {requests.length > 0 &&
-              requests.map((req, idx) => (
+              requests.map((req) => (
                 <AdoptionRequest
                   key={req._id}
                   request={req}

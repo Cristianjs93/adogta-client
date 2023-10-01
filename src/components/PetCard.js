@@ -4,10 +4,8 @@ import { FaMinus } from 'react-icons/fa';
 import { IconContext } from 'react-icons';
 import { deletePet } from '../store/toolkit/slices/generalSlice';
 import { useDispatch, useSelector } from 'react-redux';
-
 import CardImage from './CardImage';
 import CardModal from './CardModal';
-
 import withReactContent from 'sweetalert2-react-content';
 import Swal from 'sweetalert2';
 
@@ -34,15 +32,12 @@ const PetCard = (props) => {
   const [isOpen, setIsOpen] = useState(false);
 
   const [modalIsOpen, setModalIsOpen] = useState(false);
+  const [requestResponse, setRequestResponse] = useState('pending');
 
   const MySwal = withReactContent(Swal);
 
   const handleOpenImage = () => {
     setIsOpen(!isOpen);
-  };
-
-  const handleOpenModal = () => {
-    !adopted && setModalIsOpen(!modalIsOpen);
   };
 
   const handleClick = () => {
@@ -56,6 +51,12 @@ const PetCard = (props) => {
       title: <strong>Pet deleted successfully!</strong>,
       icon: 'success',
     });
+  };
+
+  const handleRequestResponse = (e) => {
+    const { name } = e.target;
+    setRequestResponse(name);
+    setModalIsOpen(!modalIsOpen);
   };
 
   return (
@@ -93,11 +94,12 @@ const PetCard = (props) => {
                 className: 'delete-pets-container__icon',
               }}>
               <div
+                name='delete'
                 className='delete-pets-container'
-                onClick={handleOpenModal}
+                onClick={handleRequestResponse}
                 data-testid='deletePetButton'>
                 {' '}
-                <FaMinus />
+                <FaMinus name='delete' />
               </div>
             </IconContext.Provider>
           )}
@@ -109,9 +111,10 @@ const PetCard = (props) => {
       )}
       {modalIsOpen && (
         <CardModal
-          handleOpenModal={handleOpenModal}
           id={_id}
-          handleConfirm={handleDeletePet}>
+          requestResponse={requestResponse}
+          onRequestResponse={handleRequestResponse}
+          handleDeletePet={handleDeletePet}>
           Are you sure you want to delete pet {name}
         </CardModal>
       )}

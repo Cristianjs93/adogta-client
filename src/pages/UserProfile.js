@@ -3,14 +3,16 @@ import { FaUserCircle } from 'react-icons/fa';
 import { useDispatch, useSelector } from 'react-redux';
 import '../assets/styles/UserProfile.css';
 import { PrimaryButton } from '../components/PrimaryButton';
-import { updateUserProfile } from '../store/actionCreators';
+import { updateUserProfile } from '../store/toolkit/slices/generalSlice';
 import { listUserRequests } from '../store/toolkit/slices/generalSlice';
-
 import AdoptionRequest from '../components/AdoptionRequest';
+import withReactContent from 'sweetalert2-react-content';
+import Swal from 'sweetalert2';
 
 function Profile() {
   const { name, email, address, phoneNumber, _id, role, photoUrl } =
     useSelector((state) => state.general.user);
+
   const dispatch = useDispatch();
 
   const [updateProfile, setUpdateProfile] = useState({
@@ -30,18 +32,13 @@ function Profile() {
 
   const requests = useSelector((state) => state.general.userRequests) || [];
 
-  const cleanup = () => {
-    URL.revokeObjectURL(updateProfile);
-  };
+  const MySwal = withReactContent(Swal);
 
   const setImage = (newImage) => {
-    if (updateProfile) {
-      cleanup();
-    }
     setUpdateProfile((prevState) => ({
       ...prevState,
-      photoUrl: URL.createObjectURL(newImage),
-      imageFile: newImage,
+      photoUrl: newImage,
+      imageFile: URL.createObjectURL(newImage),
     }));
   };
 
@@ -63,6 +60,10 @@ function Profile() {
   const handleSubmit = (event) => {
     event.preventDefault();
     dispatch(updateUserProfile(updateProfile));
+    MySwal.fire({
+      title: <strong>Profile updated successfully!</strong>,
+      icon: 'success',
+    });
   };
 
   return (
@@ -76,7 +77,11 @@ function Profile() {
           <i className='userProfile__container--image'>
             {!!updateProfile.photoUrl ? (
               <img
-                src={updateProfile.photoUrl}
+                src={
+                  updateProfile.imageFile
+                    ? updateProfile.imageFile
+                    : updateProfile.photoUrl
+                }
                 alt='Profile'
                 className='userProfile__container--profileImg'
               />

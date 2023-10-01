@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { FaBars } from 'react-icons/fa';
 import { MdPets } from 'react-icons/md';
-// import profileDog from "../assets/images/DogProfile.svg";
+import profile from '../assets/images/profile.png';
 import { Link } from 'react-router-dom';
 import { Link as LinkScroll } from 'react-scroll';
 import { animateScroll as ScrollToTop } from 'react-scroll';
@@ -66,7 +66,7 @@ function Navbar({ toggle }) {
               <img
                 onClick={toggle}
                 className='navBar__container--profilePic1'
-                src={photoUrl === undefined ? photoUrl : photoUrl}
+                src={photoUrl === undefined ? profile : photoUrl}
                 alt={name}
               />
             </Link>
@@ -186,7 +186,7 @@ function Navbar({ toggle }) {
                 to={`/${_id}/profile`}>
                 <img
                   className='navBar__container--profilePic'
-                  src={photoUrl === undefined ? photoUrl : photoUrl}
+                  src={photoUrl === undefined ? profile : photoUrl}
                   alt={name}
                 />
               </Link>

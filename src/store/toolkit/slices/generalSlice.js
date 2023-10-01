@@ -69,6 +69,38 @@ export const loadUser = createAsyncThunk('user/loadUser', async () => {
   }
 });
 
+export const updateUserProfile = createAsyncThunk(
+  'user/updateUserProfile',
+  async ({
+    _id,
+    name,
+    role,
+    address,
+    email,
+    phoneNumber,
+    photoUrl,
+    imageFile,
+  }) => {
+    try {
+      const formData = new FormData();
+      formData.append('image', imageFile);
+      formData.append('_id', _id);
+      formData.append('name', name);
+      formData.append('role', role);
+      address && formData.append('address', address);
+      formData.append('email', email);
+      phoneNumber && formData.append('phoneNumber', phoneNumber);
+      formData.append('photoUrl', photoUrl);
+
+      const response = await axios.put(`/${_id}/profile`, formData);
+
+      return response.data;
+    } catch (e) {
+      return e.message;
+    }
+  }
+);
+
 export const listPets = createAsyncThunk(
   'pets/listPets',
   async ({ initPage, foundationId }) => {
@@ -256,13 +288,13 @@ export const generalSlice = createSlice({
         error: '',
       };
     },
-    UPDATE_PROFILE: (state, action) => {
-      return {
-        ...state,
-        user: action.payload,
-        error: '',
-      };
-    },
+    // UPDATE_PROFILE: (state, action) => {
+    //   return {
+    //     ...state,
+    //     user: action.payload,
+    //     error: '',
+    //   };
+    // },
     logOut: (state) => {
       localStorage.removeItem('AUTHORIZATION');
 
@@ -381,6 +413,14 @@ export const generalSlice = createSlice({
       })
       .addCase(loadUser.rejected, (state, { error }) => {
         state.status = 'NOT_AUTHENTICATED';
+        state.error = error.message;
+      })
+
+      .addCase(updateUserProfile.pending, () => {})
+      .addCase(updateUserProfile.fulfilled, (state, { payload }) => {
+        state.user = payload;
+      })
+      .addCase(updateUserProfile.rejected, (state, { error }) => {
         state.error = error.message;
       })
       .addCase(listPets.pending, () => {})

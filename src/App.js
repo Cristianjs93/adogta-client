@@ -3,11 +3,14 @@ import { Suspense, lazy, useEffect, useState } from 'react';
 import Spinner from './components/Spinner';
 import history from './history';
 import { useDispatch } from 'react-redux';
-import { logOut, loadUser } from './store/toolkit/slices/generalSlice';
+import {
+  logOut,
+  loadUser,
+  resetError,
+} from './store/toolkit/slices/generalSlice';
 import PrivateRoute from './pages/PrivateRoute';
 import ScrollToTop from './components/ScrollToTop';
 import ScrollToTopButton from './components/ScrollToTopButton';
-import { resetError } from './store/toolkit/slices/generalSlice';
 
 const AuthVerified = lazy(() => import('./pages/AuthVerified'));
 const LoginPage = lazy(() => import('./pages/LoginPage'));

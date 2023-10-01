@@ -4,7 +4,7 @@ import { useDispatch } from 'react-redux';
 import { useParams } from 'react-router';
 import Swal from 'sweetalert2';
 import withReactContent from 'sweetalert2-react-content';
-import { verifiedEmail } from '../store/actionCreators';
+import { verifiedEmail } from '../store/toolkit/slices/generalSlice';
 import history from '../history';
 
 function AuthVerified() {
