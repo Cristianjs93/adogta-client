@@ -3,11 +3,7 @@ import { Suspense, lazy, useEffect, useState } from 'react';
 import Spinner from './components/Spinner';
 import history from './history';
 import { useDispatch } from 'react-redux';
-import {
-  logOut,
-  loadUser,
-  resetError,
-} from './store/toolkit/slices/generalSlice';
+import { resetError, loadUser } from './store/toolkit/slices/generalSlice';
 import PrivateRoute from './pages/PrivateRoute';
 import ScrollToTop from './components/ScrollToTop';
 import ScrollToTopButton from './components/ScrollToTopButton';
@@ -40,10 +36,11 @@ function App() {
 
   useEffect(() => {
     dispatch(resetError());
-    if (localStorage.getItem('AUTHORIZATION')) {
+
+    const token = localStorage.getItem('AUTHORIZATION');
+
+    if (token) {
       dispatch(loadUser());
-    } else {
-      dispatch(logOut());
     }
   }, [dispatch]);
 

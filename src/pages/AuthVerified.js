@@ -14,8 +14,7 @@ function AuthVerified() {
 
   useEffect(() => {
     dispatch(verifiedEmail(token));
-    history.push('/');
-  }, [token, dispatch]);
+  }, [dispatch, token]);
 
   const emailWasVerified = () => {
     MySwal.fire({
@@ -23,6 +22,7 @@ function AuthVerified() {
       html: `<i>Redirected to home...</i>`,
       icon: 'success',
     });
+    history.push('/');
   };
   return <div>{emailWasVerified()}</div>;
 }

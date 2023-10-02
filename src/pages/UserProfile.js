@@ -3,8 +3,10 @@ import { FaUserCircle } from 'react-icons/fa';
 import { useDispatch, useSelector } from 'react-redux';
 import '../assets/styles/UserProfile.css';
 import { PrimaryButton } from '../components/PrimaryButton';
-import { updateUserProfile } from '../store/toolkit/slices/generalSlice';
-import { listUserRequests } from '../store/toolkit/slices/generalSlice';
+import {
+  listUserRequests,
+  updateUserProfile,
+} from '../store/toolkit/slices/generalSlice';
 import AdoptionRequest from '../components/AdoptionRequest';
 import withReactContent from 'sweetalert2-react-content';
 import Swal from 'sweetalert2';
@@ -75,7 +77,8 @@ function Profile() {
           onSubmit={handleSubmit}
           data-testid='form'>
           <i className='userProfile__container--image'>
-            {!!updateProfile.photoUrl ? (
+            {!!updateProfile.photoUrl &&
+            updateProfile.photoUrl !== 'undefined' ? (
               <img
                 src={
                   updateProfile.imageFile

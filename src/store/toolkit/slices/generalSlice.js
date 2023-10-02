@@ -1,5 +1,10 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import history from '../../../history';
+import withReactContent from 'sweetalert2-react-content';
+import Swal from 'sweetalert2';
 import axios from '../../../axios';
+
+const MySwal = withReactContent(Swal);
 
 const initialState = {
   user: null,
@@ -16,6 +21,35 @@ const initialState = {
   foundation: {},
 };
 
+export const registerUser = createAsyncThunk(
+  'user/registerUser',
+  async (name, email, password, role) => {
+    try {
+      const response = await axios.post('/signup', {
+        name: name,
+        email: email,
+        password: password,
+        role: role,
+      });
+
+      MySwal.fire({
+        title: <strong>Please verify your email!</strong>,
+        html: <i>Check your inbox!</i>,
+        icon: 'success',
+      });
+
+      history.push('/');
+
+      return response.data;
+    } catch (e) {
+      return MySwal.fire({
+        title: <strong>{e.response.data.error}</strong>,
+        icon: 'error',
+      });
+    }
+  }
+);
+
 export const verifiedEmail = createAsyncThunk(
   'user/verifiedEmail',
   async (token) => {
@@ -29,7 +63,10 @@ export const verifiedEmail = createAsyncThunk(
 
       return response.data;
     } catch (e) {
-      return e.message;
+      return MySwal.fire({
+        title: <strong>{e.response.data.error}</strong>,
+        icon: 'error',
+      });
     }
   }
 );
@@ -48,9 +85,14 @@ export const authUser = createAsyncThunk(
       axios.defaults.headers.common['Authorization'] =
         localStorage.getItem('AUTHORIZATION');
 
+      history.push('/');
+
       return response.data;
     } catch (e) {
-      return e.message;
+      return MySwal.fire({
+        title: <strong>{e.response.data.error}</strong>,
+        icon: 'error',
+      });
     }
   }
 );
@@ -65,7 +107,10 @@ export const loadUser = createAsyncThunk('user/loadUser', async () => {
     return response.data;
   } catch (e) {
     localStorage.removeItem('AUTHORIZATION');
-    return e.message;
+    return MySwal.fire({
+      title: <strong>{e.response.data.error}</strong>,
+      icon: 'error',
+    });
   }
 });
 
@@ -96,7 +141,10 @@ export const updateUserProfile = createAsyncThunk(
 
       return response.data;
     } catch (e) {
-      return e.message;
+      return MySwal.fire({
+        title: <strong>{e.response.data.error}</strong>,
+        icon: 'error',
+      });
     }
   }
 );
@@ -114,7 +162,10 @@ export const listPets = createAsyncThunk(
       });
       return response.data;
     } catch (e) {
-      return e.message;
+      return MySwal.fire({
+        title: <strong>{e.response.data.error}</strong>,
+        icon: 'error',
+      });
     }
   }
 );
@@ -139,7 +190,10 @@ export const addPets = createAsyncThunk(
       );
       return response.data;
     } catch (e) {
-      return e.message;
+      return MySwal.fire({
+        title: <strong>{e.response.data.error}</strong>,
+        icon: 'error',
+      });
     }
   }
 );
@@ -149,7 +203,10 @@ export const deletePet = createAsyncThunk('pets/seletePet', async (petId) => {
     const response = await axios.delete(`/pets/${petId}`);
     return response.data;
   } catch (e) {
-    return e.message;
+    return MySwal.fire({
+      title: <strong>{e.response.data.error}</strong>,
+      icon: 'error',
+    });
   }
 });
 
@@ -162,7 +219,10 @@ export const selectPet = createAsyncThunk('pets/selectPet', async (petId) => {
 
     return { pet: petResponse.data, adoptionRequests: requestsResponse.data };
   } catch (e) {
-    return e.message;
+    return MySwal.fire({
+      title: <strong>{e.response.data.error}</strong>,
+      icon: 'error',
+    });
   }
 });
 
@@ -175,7 +235,10 @@ export const updateRequest = createAsyncThunk(
       });
       return response.data;
     } catch (e) {
-      return e.message;
+      return MySwal.fire({
+        title: <strong>{e.response.data.error}</strong>,
+        icon: 'error',
+      });
     }
   }
 );
@@ -189,7 +252,10 @@ export const bulkReject = createAsyncThunk(
       });
       return response.data;
     } catch (e) {
-      return e.message;
+      return MySwal.fire({
+        title: <strong>{e.response.data.error}</strong>,
+        icon: 'error',
+      });
     }
   }
 );
@@ -202,7 +268,10 @@ export const listFoundationRequests = createAsyncThunk(
 
       return response.data;
     } catch (e) {
-      return e.message;
+      return MySwal.fire({
+        title: <strong>{e.response.data.error}</strong>,
+        icon: 'error',
+      });
     }
   }
 );
@@ -221,7 +290,7 @@ export const createAdoption = createAsyncThunk(
 
       return response.data;
     } catch (e) {
-      return e.response.data.error;
+      return e.message;
     }
   }
 );
@@ -233,7 +302,10 @@ export const listUserRequests = createAsyncThunk(
       let response = await axios.get(`${userId}/requests`);
       return response.data;
     } catch (e) {
-      return e.message;
+      return MySwal.fire({
+        title: <strong>{e.response.data.error}</strong>,
+        icon: 'error',
+      });
     }
   }
 );
@@ -242,16 +314,6 @@ export const generalSlice = createSlice({
   name: 'general',
   initialState,
   reducers: {
-    // LOGIN_USER: (state, action) => {
-    //   const { _id, name, email, role, address, photoUrl, phoneNumber } =
-    //     action.payload;
-    //   return {
-    //     ...state,
-    //     user: { _id, name, email, role, address, photoUrl, phoneNumber },
-    //     status: 'AUTHENTICATED',
-    //     error: '',
-    //   };
-    // },
     resetError: (state) => {
       return {
         ...state,
@@ -259,45 +321,8 @@ export const generalSlice = createSlice({
         errStatus: 'INITIALIZED',
       };
     },
-    // ADD_PETS: (state, action) => {
-    //   return {
-    //     ...state,
-    //     pets: action.payload,
-    //   };
-    // },
-    // SET_PETS: (state, action) => {
-    //   return {
-    //     ...state,
-    //     pets: action.payload.pets,
-    //     petListInfo: {
-    //       count: action.payload.count,
-    //       page: +action.payload.page,
-    //     },
-    //   };
-    // },
-    // DELETE_PET: (state, action) => {
-    //   return {
-    //     ...state,
-    //     pets: state.pets.filter((pet) => pet._id !== action.payload),
-    //   };
-    // },
-    REGISTER_USER: (state, action) => {
-      return {
-        ...state,
-        user: action.payload,
-        error: '',
-      };
-    },
-    // UPDATE_PROFILE: (state, action) => {
-    //   return {
-    //     ...state,
-    //     user: action.payload,
-    //     error: '',
-    //   };
-    // },
     logOut: (state) => {
       localStorage.removeItem('AUTHORIZATION');
-
       return {
         ...state,
         user: null,
@@ -308,65 +333,6 @@ export const generalSlice = createSlice({
         foundationRequests: [],
       };
     },
-    // SELECT_PET: (state, action) => {
-    //   return {
-    //     ...state,
-    //     selectedPet: action.payload,
-    //   };
-    // },
-    // LIST_REQUESTS: (state, action) => {
-    //   return {
-    //     ...state,
-    //     adoptionRequests: action.payload,
-    //   };
-    // },
-    // LIST_FOUNDATION_REQUESTS: (state, action) => {
-    //   return {
-    //     ...state,
-    //     foundationRequests: action.payload,
-    //   };
-    // },
-    // UPDATE_REQUEST: (state, action) => {
-    //   return {
-    //     ...state,
-    //     adoptionRequests: state.adoptionRequests.map((req) =>
-    //       req._id === action.payload._id
-    //         ? { ...req, responseStatus: action.payload.responseStatus }
-    //         : req
-    //     ),
-    //   };
-    // },
-    // BULK_REJECT_REQUESTS: (state, action) => {
-    //   return {
-    //     ...state,
-    //     adoptionRequests: state.adoptionRequests.map((req) =>
-    //       req._id !== action.payload
-    //         ? { ...req, responseStatus: 'rejected' }
-    //         : req
-    //     ),
-    //   };
-    // },
-    ERROR: (state, action) => {
-      return {
-        ...state,
-        error: action.payload,
-        errStatus: 'INITIALIZED',
-      };
-    },
-    // CREATE_ADOPTION_REQUEST: (state, action) => {
-    //   return {
-    //     ...state,
-    //     adoptionRequests: action.payload,
-    //     error: '',
-    //     errStatus: 'FINISHED',
-    //   };
-    // },
-    // LIST_USER_REQUESTS: (state, action) => {
-    //   return {
-    //     ...state,
-    //     userRequests: action.payload,
-    //   };
-    // },
     setFoundation: (state, action) => {
       return {
         ...state,
@@ -374,8 +340,16 @@ export const generalSlice = createSlice({
       };
     },
   },
+
   extraReducers: (builder) => {
     builder
+      .addCase(registerUser.pending, () => {})
+      .addCase(registerUser.fulfilled, (state) => {
+        state.error = '';
+      })
+      .addCase(registerUser.rejected, (state, { error }) => {
+        state.error = error.message;
+      })
       .addCase(verifiedEmail.pending, (state) => {
         state.status = 'LOADING';
       })
@@ -393,10 +367,20 @@ export const generalSlice = createSlice({
         state.status = 'LOADING';
       })
       .addCase(authUser.fulfilled, (state, { payload }) => {
-        state.status = 'AUTHENTICATED';
         const { _id, name, email, role, address, photoUrl, phoneNumber } =
           payload;
-        state.user = { _id, name, email, role, address, photoUrl, phoneNumber };
+        if (_id) {
+          state.status = 'AUTHENTICATED';
+          state.user = {
+            _id,
+            name,
+            email,
+            role,
+            address,
+            photoUrl,
+            phoneNumber,
+          };
+        }
       })
       .addCase(authUser.rejected, (state, { error }) => {
         state.status = 'NOT_AUTHENTICATED';
@@ -507,25 +491,7 @@ export const generalSlice = createSlice({
   },
 });
 
-export const {
-  LOGIN_USER,
-  resetError,
-  ADD_PETS,
-  SET_PETS,
-  DELETE_PET,
-  REGISTER_USER,
-  UPDATE_PROFILE,
-  logOut,
-  SELECT_PET,
-  LIST_REQUESTS,
-  LIST_FOUNDATION_REQUESTS,
-  UPDATE_REQUEST,
-  BULK_REJECT_REQUESTS,
-  ERROR,
-  CREATE_ADOPTION_REQUEST,
-  LIST_USER_REQUESTS,
-  setFoundation,
-} = generalSlice.actions;
+export const { resetError, logOut, setFoundation } = generalSlice.actions;
 
 export const selectGeneral = (state) => state.general;
 

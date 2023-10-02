@@ -4,7 +4,6 @@ import '../assets/styles/LoginPage.css';
 import { useSelector, useDispatch } from 'react-redux';
 import { resetError } from '../store/toolkit/slices/generalSlice';
 import { authUser } from '../store/toolkit/slices/generalSlice';
-import history from '../history';
 
 const LoginPage = () => {
   const form = useRef(null);
@@ -46,7 +45,6 @@ const LoginPage = () => {
         password: formState.values.password || '',
       })
     );
-    history.push('/');
   };
 
   return (

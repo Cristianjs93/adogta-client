@@ -66,7 +66,9 @@ function Navbar({ toggle }) {
               <img
                 onClick={toggle}
                 className='navBar__container--profilePic1'
-                src={photoUrl === undefined ? profile : photoUrl}
+                src={
+                  !!photoUrl && photoUrl !== 'undefined' ? photoUrl : profile
+                }
                 alt={name}
               />
             </Link>
@@ -186,7 +188,9 @@ function Navbar({ toggle }) {
                 to={`/${_id}/profile`}>
                 <img
                   className='navBar__container--profilePic'
-                  src={photoUrl === undefined ? profile : photoUrl}
+                  src={
+                    !!photoUrl && photoUrl !== 'undefined' ? photoUrl : profile
+                  }
                   alt={name}
                 />
               </Link>

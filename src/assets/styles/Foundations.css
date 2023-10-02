@@ -76,8 +76,11 @@
 
 .text-foundations {
   font-size: 14pt;
+  white-space: nowrap;
   padding-bottom: 10px;
   padding-left: 10px;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .icons-foundations {

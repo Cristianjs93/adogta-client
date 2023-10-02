@@ -21,7 +21,6 @@ const PetListPage = () => {
 
   const [petsChanges, setPetsChanges] = useState(true);
 
-  const general = useSelector((state) => state.general);
   const { pets, petListInfo } = useSelector((state) => state.general);
   const { user } = useSelector((state) => state.general);
 
@@ -73,7 +72,6 @@ const PetListPage = () => {
     <div className='background-container'>
       {!loading && (
         <>
-          <button onClick={() => console.log(general)}>general</button>
           <CardList title='Are you looking for a new friend?'>
             {pets.length > 0 ? (
               pets.map((item) => (
