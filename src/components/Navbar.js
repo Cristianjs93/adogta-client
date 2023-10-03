@@ -1,16 +1,19 @@
 import { useState, useEffect } from 'react';
-import { FaBars } from 'react-icons/fa';
-import { MdPets } from 'react-icons/md';
-import profile from '../assets/images/profile.png';
+import { useDispatch, useSelector } from 'react-redux';
+import { useTranslation } from 'react-i18next';
+import { logOut } from '../store/toolkit/slices/generalSlice';
 import { Link } from 'react-router-dom';
 import { Link as LinkScroll } from 'react-scroll';
+import LanguageSelector from './LanguageSelector';
+import history from '../history';
+import profile from '../assets/images/profile.png';
+import { FaBars } from 'react-icons/fa';
+import { MdPets } from 'react-icons/md';
 import { animateScroll as ScrollToTop } from 'react-scroll';
 import '../assets/styles/Navbar.css';
-import { useDispatch, useSelector } from 'react-redux';
-import history from '../history';
-import { logOut } from '../store/toolkit/slices/generalSlice';
 
 function Navbar({ toggle }) {
+  const { t } = useTranslation();
   const dispatch = useDispatch();
 
   let recentUser = useSelector((state) => state.general.user);
@@ -19,8 +22,6 @@ function Navbar({ toggle }) {
   }
 
   const status = useSelector((state) => state.general.status);
-
-  const general = useSelector((state) => state.general);
 
   const { photoUrl, name, _id, role } = recentUser;
 
@@ -52,7 +53,6 @@ function Navbar({ toggle }) {
   return (
     <>
       <nav className='navBar' data-testid='navBar'>
-        <button onClick={() => console.log(general)}>general</button>
         <div className='navBar__container'>
           <Link className='navBar__container--logo' to='/' data-testid='adogta'>
             <MdPets className='navBar__container--pet' />
@@ -82,7 +82,9 @@ function Navbar({ toggle }) {
               <li
                 className='navBar__container--navItem'
                 onClick={() => ScrollToTop.scrollToTop()}>
-                <div className='navBar__container--navLinks'>ABOUT</div>
+                <div className='navBar__container--navLinks'>
+                  {t('navBar.about')}
+                </div>
               </li>
               <li className='navBar__container--navItem'>
                 <LinkScroll
@@ -91,7 +93,7 @@ function Navbar({ toggle }) {
                   smooth={true}
                   duration={1000}
                   data-testid='info'>
-                  INFO
+                  {t('navBar.info')}
                 </LinkScroll>
               </li>
               <li className='navBar__container--navItem'>
@@ -100,7 +102,7 @@ function Navbar({ toggle }) {
                   to='helpUs'
                   smooth={true}
                   duration={1000}>
-                  HELP US
+                  {t('navBar.help')}
                 </LinkScroll>
               </li>
             </ul>
@@ -117,7 +119,7 @@ function Navbar({ toggle }) {
                 className='navBar__container--navLinks2'
                 to='/login'
                 data-testid='login'>
-                LOG IN
+                {t('navBar.logIn')}
               </Link>
             </li>{' '}
             <li
@@ -130,7 +132,7 @@ function Navbar({ toggle }) {
                 className='navBar__container--navLinks2'
                 to={`/foundations/${_id}/pets`}
                 data-testid='pets'>
-                PETS
+                {t('navBar.pets')}
               </Link>
             </li>
             <li
@@ -140,7 +142,7 @@ function Navbar({ toggle }) {
                   : 'navBar__container--navMenu2--hide'
               }>
               <Link className='navBar__container--navLinks2' to='/admin'>
-                FOUNDATIONS
+                {t('navBar.foundations')}
               </Link>
             </li>
             <li
@@ -153,7 +155,7 @@ function Navbar({ toggle }) {
                 className='navBar__container--navLinks2'
                 to='/foundations'
                 data-testid='foundations'>
-                FOUNDATIONS
+                {t('navBar.foundations')}
               </Link>
             </li>
             <li
@@ -163,7 +165,7 @@ function Navbar({ toggle }) {
                   : 'navBar__container--navMenu2--hide'
               }>
               <Link className='navBar__container--navLinks2' to='/admin/users'>
-                USERS
+                {t('navBar.users')}
               </Link>
             </li>
             <li
@@ -176,7 +178,7 @@ function Navbar({ toggle }) {
                 className='navBar__container--navLinks2'
                 to='/'
                 onClick={handleLogOut}>
-                LOG OUT
+                {t('navBar.logOut')}
               </Link>
             </li>
           </ul>
@@ -199,9 +201,11 @@ function Navbar({ toggle }) {
                 className='navBar__container--navBtnLink'
                 to='/signup'
                 data-testid='signup'>
-                SIGN UP
+                {t('navBar.signUp')}
               </Link>
             )}
+
+            <LanguageSelector />
           </nav>
         </div>
       </nav>

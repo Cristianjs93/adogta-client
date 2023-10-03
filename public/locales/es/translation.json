@@ -1,0 +1,15 @@
+{
+  "navBar.about": "ACERCA DE",
+  "navBar.info": "INFORMACION",
+  "navBar.help": "AYUDANOS",
+  "navBar.logIn": " INICIAR SESION",
+  "navBar.signUp": "REGISTRATE",
+  "navBar.foundations": "FUNDACIONES",
+  "navBar.users": "USUARIOS",
+  "navBar.pets": "MASCOTAS",
+  "navBar.logOut": "CERRAR SESION",
+  "aboutSection.adopt.partner": "Adopta a tu compañero de vida",
+  "aboutSection.adopt.difficult": "Adoptar es extremadamente facil",
+  "aboutSection.adopt.info": "Si te encanta pasar tiempo con un compañero de por vida, únete a nosotros. Te conectamos con diversas fundaciones y mascotas que te están esperando. Todo lo que necesitas hacer es proporcionar tu información.",
+  "aboutSection.adopt.me": "ADOPTAME"
+}

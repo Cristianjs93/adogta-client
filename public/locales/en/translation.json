@@ -1,0 +1,15 @@
+{
+  "navBar.about": "ABOUT",
+  "navBar.info": "INFO",
+  "navBar.help": "HELP US",
+  "navBar.logIn": "LOG IN",
+  "navBar.signUp": "SIGN UP",
+  "navBar.foundations": "FOUNDATIONS",
+  "navBar.users": "USERS",
+  "navBar.pets": "PETS",
+  "navBar.logOut": "LOG OUT",
+  "aboutSection.adopt.partner": "Adopt your lifetime partner",
+  "aboutSection.adopt.difficult": "Adopting is extremely easy",
+  "aboutSection.adopt.info": "If you love spending time with a companion for life join us. We link you with different foundations and pets that are waiting for you. All you need to do is add your information",
+  "aboutSection.adopt.me": "ADOP ME"
+}

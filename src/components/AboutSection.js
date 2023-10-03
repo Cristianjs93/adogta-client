@@ -1,5 +1,6 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
+import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
 import { Player } from '@lottiefiles/react-lottie-player';
 import Dog from '../assets/images/23919-error-doggy.json';
@@ -8,6 +9,7 @@ import '../assets/styles/AboutSection.css';
 
 const AboutSection = () => {
   const activeUser = useSelector((state) => state.general.user);
+  const { t } = useTranslation();
 
   return (
     <>
@@ -15,15 +17,13 @@ const AboutSection = () => {
         <div className='aboutContainer__wrapper'>
           <div className='aboutContainer__wrapper--textWrapper'>
             <div className='aboutContainer__wrapper--topLine'>
-              Adopt your lifetime partner
+              {t('aboutSection.adopt.partner')}
             </div>
             <h1 className='aboutContainer__wrapper--heading'>
-              Adopting is extremely easy
+              {t('aboutSection.adopt.difficult')}
             </h1>
             <p className='aboutContainer__wrapper--subtitle'>
-              If you love spending time with a companion for life join us. We
-              link you with different foundations and pets that are waiting for
-              you. All you need to do is add your information
+              {t('aboutSection.adopt.info')}
             </p>
             {activeUser ? (
               <Link
@@ -38,16 +38,16 @@ const AboutSection = () => {
                 }>
                 <button className='aboutContainer__wrapper--button'>
                   {activeUser.role === 'user' || activeUser.role === null
-                    ? 'FOUNDATIONS'
+                    ? t('navBar.foundations')
                     : activeUser.role === 'foundation'
-                    ? 'PETS'
+                    ? t('navBar.pets')
                     : activeUser.role === 'admin' && 'PROFILE'}
                 </button>
               </Link>
             ) : (
               <Link className='aboutContainer__wrapper--btnWrap' to='/signup'>
                 <button className='aboutContainer__wrapper--button'>
-                  ADOPT ME
+                  {t('aboutSection.adopt.me')}
                 </button>
               </Link>
             )}
