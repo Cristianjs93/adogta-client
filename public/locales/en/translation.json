@@ -17,5 +17,8 @@
   "info.your.pet": "Your dream pet is waiting for you",
   "helpUs.help.foundations": "You can help our foundations",
   "helpUs.message": "If you aren't interested in adopting a pet, you can help the foundations maintain their herd with a donation.",
-  "help.donate": "DONATE"
+  "help.donate": "DONATE",
+  "footer.home": "HOME",
+  "footer.profile": "PROFILE",
+  "footer.copyrigth": "Copyright {{copyrigth}} Agodta Foundation. All Rights Reserved"
 }

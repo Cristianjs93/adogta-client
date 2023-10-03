@@ -17,5 +17,8 @@
   "info.your.pet": "Tu mascota soñada te está esperando.",
   "helpUs.help.foundations": "Puedes ayudar a nuestras fundaciones",
   "helpUs.message": "Si no estás interesado en adoptar una mascota, puedes ayudar a las fundaciones a mantener a su grupo con una donación.",
-  "help.donate": "DONAR"
+  "help.donate": "DONAR",
+  "footer.home": "INICIO",
+  "footer.profile": "PERFIL",
+  "footer.copyrigth": "Derechos de autor {{copyrigth}} Fundación Adogta. Todos los derechos reservados"
 }

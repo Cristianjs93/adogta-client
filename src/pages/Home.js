@@ -19,8 +19,6 @@ function Home() {
     }
   }, [dispatch, token]);
 
-  console.log(activeUser);
-
   return (
     <div data-testid='Home'>
       <AboutSection />

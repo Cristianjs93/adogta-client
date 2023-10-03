@@ -1,23 +1,22 @@
-import React from 'react';
-import '../assets/styles/Footer.css';
+import React, { useState, useEffect } from 'react';
+import { useSelector } from 'react-redux';
+import { useTranslation } from 'react-i18next';
+import { Link } from 'react-router-dom';
+import { Link as LinkScroll } from 'react-scroll';
+import { animateScroll as ScrollToTop } from 'react-scroll';
+import history from '../history';
 import {
   FaFacebook,
   FaTwitterSquare,
   FaInstagram,
   FaLinkedin,
 } from 'react-icons/fa';
-import { Link } from 'react-router-dom';
-import { Link as LinkScroll } from 'react-scroll';
-import { animateScroll as ScrollToTop } from 'react-scroll';
-import { useSelector } from 'react-redux';
-import { AUTHENTICATED, NOT_AUTHENTICATED } from '../store/actions';
-import { useState } from 'react';
-import history from '../history';
-import { useEffect } from 'react';
+import '../assets/styles/Footer.css';
 
 const Footer = () => {
-  const status = useSelector((state) => state.status);
-  let recentUser = useSelector((state) => state.user);
+  const { t } = useTranslation();
+  const status = useSelector((state) => state.general.status);
+  let recentUser = useSelector((state) => state.general.user);
   if (recentUser === null || recentUser === undefined) {
     recentUser = {};
   }
@@ -82,70 +81,71 @@ const Footer = () => {
         <div className='footer__wrapper--quick-links'>
           <ul>
             <li className='footer__wrapper--quick-items'>
-              {status === AUTHENTICATED ? (
+              {status === 'AUTHENTICATED' ? (
                 role === 'user' ? (
                   <Link className='footer__wrapper--navLinks' to='/foundations'>
-                    FOUNDATIONS
+                    {t('navBar.foundations')}
                   </Link>
                 ) : (
                   role === 'foundation' && (
                     <Link
                       className='navBar__container--navLinks2'
                       to={`/foundations/${_id}/pets`}>
-                      PETS
+                      {t('navBar.pets')}
                     </Link>
                   )
                 )
               ) : (
-                status === NOT_AUTHENTICATED &&
+                (status === 'NOT_AUTHENTICATED' || status === 'LOADING') &&
                 location === '/' && (
                   <div
                     className='footer__wrapper--navLinks'
                     onClick={() => ScrollToTop.scrollToTop()}>
-                    ABOUT
+                    {t('navBar.about')}
                   </div>
                 )
               )}
-              {status === AUTHENTICATED && role === 'admin' && (
+              {status === 'AUTHENTICATED' && role === 'admin' && (
                 <Link className='footer__wrapper--navLinks' to='/'>
-                  HOME
+                  {t('footer.home')}
                 </Link>
               )}
             </li>
             <li className='footer__wrapper--quick-items'>
-              {status === NOT_AUTHENTICATED && location === '/' ? (
+              {(status === 'NOT_AUTHENTICATED' || status === 'LOADING') &&
+              location === '/' ? (
                 <LinkScroll
                   className='footer__wrapper--navLinks'
                   to='info'
                   smooth={true}
                   duration={1000}>
-                  INFO
+                  {t('navBar.info')}
                 </LinkScroll>
               ) : (
-                status === NOT_AUTHENTICATED &&
+                status === 'NOT_AUTHENTICATED' &&
                 location !== '/' && (
                   <Link className='footer__wrapper--navLinks' to='/'>
-                    HOME
+                    {t('footer.home')}
                   </Link>
                 )
               )}
             </li>
             <li className='footer__wrapper--quick-items'>
-              {status === AUTHENTICATED ? (
+              {status === 'AUTHENTICATED' ? (
                 <Link
                   className='footer__wrapper--navLinks'
                   to={`/${_id}/profile`}>
-                  PROFILE
+                  {t('footer.profile')}
                 </Link>
               ) : (
-                status === NOT_AUTHENTICATED &&
+                status === 'NOT_AUTHENTICATED' &&
                 location === '/' && (
                   <LinkScroll
                     className='footer__wrapper--navLinks'
                     to='helpUs'
                     smooth={true}
                     duration={1000}>
-                    HELP US
+                    {t('navBar.help')}
                   </LinkScroll>
                 )
               )}
@@ -155,10 +155,11 @@ const Footer = () => {
       </div>
 
       <div className='footer__outer-footer'>
-        Copyright &copy; Agodta Foundation Rights Reserved
+        {t('footer.copyrigth', {
+          copyrigth: String.fromCharCode(169),
+        })}
       </div>
     </footer>
   );
 };
-
 export default Footer;
