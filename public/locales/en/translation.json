@@ -81,7 +81,6 @@
   "petCard.delete.message": "Pet deleted successfully!",
   "petCard.adoption.status": "Adopted",
   "petCard.delete.confirmation": "Are you sure you want to delete pet ",
-
   "petListPage.donate": "Donate",
   "petManagePage.age": "Age:",
   "addPet.error.field": "All the fields must be filled",
@@ -108,7 +107,9 @@
   "validateInfo.phoneNumber.required": "Phone number required",
   "validateInfo.phoneNumber.invalid": "Phone number is invalid",
   "validateInfo.description.required": "Description required",
-  "petFormSucces.message": "We have received your request!",
-  "petFormSucces.button": "RETURN TO HOME",
-  "petFormRepeat.message": "You have already sent a request to adopt this pet"
+  "petFormSuccess.message": "We have received your request!",
+  "petFormSuccess.button": "RETURN TO HOME",
+  "petFormRepeat.message": "You have already sent a request to adopt this pet",
+  "notFound.status": "404 ERROR",
+  "notFound.message": "The page you are looking for doesn't exist"
 }

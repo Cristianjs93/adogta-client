@@ -1,16 +1,17 @@
 import { useState, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { useTranslation } from 'react-i18next';
+import { logOut } from '../store/toolkit/slices/generalSlice';
 import { Link } from 'react-router-dom';
+import history from '../history';
 import { Link as LinkScroll } from 'react-scroll';
 import { animateScroll as ScrollToTop } from 'react-scroll';
-import '../assets/styles/SideBar.css';
 import { FaTimes } from 'react-icons/fa';
-import { useDispatch, useSelector } from 'react-redux';
-import { logOut } from '../store/toolkit/slices/generalSlice';
-import { AUTHENTICATED, NOT_AUTHENTICATED } from '../store/actions';
-import history from '../history';
+import '../assets/styles/SideBar.css';
 
 function SideBar({ isOpen, toggle }) {
   const dispatch = useDispatch();
+  const { t } = useTranslation();
 
   const status = useSelector((state) => state.general.status);
 
@@ -49,7 +50,7 @@ function SideBar({ isOpen, toggle }) {
             <li
               className='sideBar__container--link'
               onClick={() => ScrollToTop.scrollToTop()}>
-              ABOUT
+              {t('navBar.about')}
             </li>
             <li>
               <LinkScroll
@@ -58,7 +59,7 @@ function SideBar({ isOpen, toggle }) {
                 duration={1000}
                 className='sideBar__container--link'
                 to='info'>
-                INFO
+                {t('navBar.info')}
               </LinkScroll>
             </li>
             <li>
@@ -68,82 +69,82 @@ function SideBar({ isOpen, toggle }) {
                 duration={1000}
                 className='sideBar__container--link'
                 to='helpUs'>
-                HELP US
+                {t('navBar.help')}
               </LinkScroll>
             </li>
           </ul>
         )}
 
         <div className='sideBar__container--btnWrap'>
-          {status === AUTHENTICATED && (
+          {status === 'AUTHENTICATED' && (
             <Link
               className='sideBar__container--route'
               to={`/${_id}/profile`}
               data-testid='profile2'>
-              PROFILE
+              {t('footer.profile')}
             </Link>
           )}
         </div>
         <div className='sideBar__container--btnWrap'>
-          {status === AUTHENTICATED && role === 'user' ? (
+          {status === 'AUTHENTICATED' && role === 'user' ? (
             <Link
               className='sideBar__container--route'
               to='/foundations'
               data-testid='foundations2'>
-              FOUNDATIONS
+              {t('navBar.foundations')}
             </Link>
           ) : (
-            status === AUTHENTICATED &&
+            status === 'AUTHENTICATED' &&
             role === 'foundation' && (
               <Link
                 className='sideBar__container--route'
                 to={`/foundations/${_id}/pets`}
                 data-testid='pets2'>
-                PETS
+                {t('navBar.pets')}
               </Link>
             )
           )}
-          {status === AUTHENTICATED && role === 'admin' && (
+          {status === 'AUTHENTICATED' && role === 'admin' && (
             <Link className='sideBar__container--route' to='/admin/users'>
-              USERS
+              {t('navBar.users')}
             </Link>
           )}
         </div>
         <div className='sideBar__container--btnWrap'>
-          {status === AUTHENTICATED && (
+          {status === 'AUTHENTICATED' && (
             <Link
               className='sideBar__container--route'
               to='/'
               onClick={handleLogOut}
               data-testid='logout2'>
-              LOG OUT
+              {t('navBar.logOut')}
             </Link>
           )}
         </div>
 
         <div className='sideBar__container--btnWrap'>
-          {status === AUTHENTICATED && role === 'admin' ? (
+          {status === 'AUTHENTICATED' && role === 'admin' ? (
             <Link className='sideBar__container--route' to='/admin'>
-              FOUNDATIONS
+              {t('navBar.foundations')}
             </Link>
           ) : (
-            status === NOT_AUTHENTICATED && (
+            status === 'NOT_AUTHENTICATED' && (
               <Link
                 className='sideBar__container--route'
                 to='/login'
                 data-testid='login2'>
-                LOG IN
+                {t('navBar.logIn')}
               </Link>
             )
           )}
         </div>
         <div className='sideBar__container--btnWrap'>
-          {status === NOT_AUTHENTICATED && (
+          {status === 'NOT_AUTHENTICATED' && (
             <Link
               className='sideBar__container--route'
               to='/signup'
               data-testid='signup2'>
-              SIGN UP
+              {t('navBar.signUp')}
             </Link>
           )}
         </div>

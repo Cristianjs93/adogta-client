@@ -110,5 +110,7 @@
   "validateInfo.description.required": "Se requiere una descripcion",
   "petFormSuccess.message": "Hemos recibido tu solicitud de adopcion!",
   "petFormSuccess.button": "REGRESAR AL INICIO",
-  "petFormRepeat.message": "Ya has enviado una solicitud para adoptar esta mascota"
+  "petFormRepeat.message": "Ya has enviado una solicitud para adoptar esta mascota",
+  "notFound.status": "ERROR 404 ",
+  "notFound.message": "La pagina que intentas buscar no existe"
 }
