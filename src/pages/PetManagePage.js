@@ -64,7 +64,7 @@ const PetManagePage = () => {
           </section>
         </>
       ) : (
-        <h1 className='no-pets-message'>This pet doesn't exist</h1>
+        <h1 className='no-pets-message'>{t('petManagePage.dont.exist')}</h1>
       )}
     </div>
   );

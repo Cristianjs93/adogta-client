@@ -81,9 +81,9 @@
   "petCard.delete.message": "Mascota eliminada exitosamente!",
   "petCard.adoption.status": "Adoptado",
   "petCard.delete.confirmation": "Estas seguro de que deseas eliminar a la mascota ",
-
   "petListPage.donate": "Donar",
   "petManagePage.age": "Edad:",
+  "petManagePage.dont.exist": "La mascota no existe",
   "addPet.error.field": "Todos los campos deben ser diligenciados",
   "addPet.error.image": "Selecciona una imagen para tu mascota",
   "addPet.success": "Mascota añadida exitosamente!",
@@ -111,6 +111,7 @@
   "petFormSuccess.message": "Hemos recibido tu solicitud de adopcion!",
   "petFormSuccess.button": "REGRESAR AL INICIO",
   "petFormRepeat.message": "Ya has enviado una solicitud para adoptar esta mascota",
+  "privateRoute.loading": "Cargando...",
   "notFound.status": "ERROR 404 ",
   "notFound.message": "La pagina que intentas buscar no existe"
 }

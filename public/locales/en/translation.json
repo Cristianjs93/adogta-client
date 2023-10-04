@@ -83,6 +83,7 @@
   "petCard.delete.confirmation": "Are you sure you want to delete pet ",
   "petListPage.donate": "Donate",
   "petManagePage.age": "Age:",
+  "petManagePage.dont.exist": "This pet doesn't exist",
   "addPet.error.field": "All the fields must be filled",
   "addPet.error.image": "Select a image for your pet",
   "addPet.success": "Pet added successfully!",
@@ -110,6 +111,7 @@
   "petFormSuccess.message": "We have received your request!",
   "petFormSuccess.button": "RETURN TO HOME",
   "petFormRepeat.message": "You have already sent a request to adopt this pet",
+  "privateRoute.loading": "Loading...",
   "notFound.status": "404 ERROR",
   "notFound.message": "The page you are looking for doesn't exist"
 }
