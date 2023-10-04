@@ -1,6 +1,7 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import history from '../../../history';
 import withReactContent from 'sweetalert2-react-content';
+import i18n from '../../../i18n';
 import Swal from 'sweetalert2';
 import axios from '../../../axios';
 
@@ -33,8 +34,8 @@ export const registerUser = createAsyncThunk(
       });
 
       MySwal.fire({
-        title: <strong>Please verify your email!</strong>,
-        html: <i>Check your inbox!</i>,
+        title: <strong>{i18n.t('verify.email')}</strong>,
+        html: <i>{i18n.t('verify.inbox')}</i>,
         icon: 'success',
       });
 
@@ -89,10 +90,19 @@ export const authUser = createAsyncThunk(
 
       return response.data;
     } catch (e) {
-      return MySwal.fire({
-        title: <strong>{e.response.data.error}</strong>,
-        icon: 'error',
-      });
+      if (e.response.data.error === 'Invalid password') {
+        return MySwal.fire({
+          title: <strong>{i18n.t('login.invalid.password')}</strong>,
+          icon: 'error',
+        });
+      }
+
+      if (e.response.data.error === 'User does not exist') {
+        return MySwal.fire({
+          title: <strong>{i18n.t('login.invalid.user')}</strong>,
+          icon: 'error',
+        });
+      }
     }
   }
 );

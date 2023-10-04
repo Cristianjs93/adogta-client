@@ -1,13 +1,14 @@
 import { useState, useRef, useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { useTranslation } from 'react-i18next';
+import { authUser, resetError } from '../store/toolkit/slices/generalSlice';
 import { Link } from 'react-router-dom';
 import '../assets/styles/LoginPage.css';
-import { useSelector, useDispatch } from 'react-redux';
-import { resetError } from '../store/toolkit/slices/generalSlice';
-import { authUser } from '../store/toolkit/slices/generalSlice';
 
 const LoginPage = () => {
   const form = useRef(null);
   const dispatch = useDispatch();
+  const { t } = useTranslation();
 
   const [formState, setFormState] = useState({
     isInvalid: false,
@@ -50,8 +51,8 @@ const LoginPage = () => {
   return (
     <section className='login'>
       <section className='login__container'>
-        <h2>Login</h2>
-        {formState.isInvalid && <span>*Invalid Email</span>}
+        <h2>{t('loginPage.login')}</h2>
+        {formState.isInvalid && <span>*{t('loginPage.error.email')}</span>}
         <form
           className='login__container--form'
           ref={form}
@@ -60,7 +61,7 @@ const LoginPage = () => {
             name='email'
             className='input'
             type='text'
-            placeholder='Email'
+            placeholder={t('loginPage.email.placeholder')}
             onChange={handleChange}
             onBlur={handleVerifyEmail}
             data-testid='email'
@@ -69,7 +70,7 @@ const LoginPage = () => {
             name='password'
             className='input'
             type='password'
-            placeholder='Password'
+            placeholder={t('loginPage.password.placeholder')}
             onChange={handleChange}
             data-testid='password'
           />
@@ -80,12 +81,13 @@ const LoginPage = () => {
             onClick={handleSubmit}
             disabled={formState.isInvalid}
             data-testid='loginButton'>
-            Login
+            {t('loginPage.login')}
           </button>
         </form>
         {!!error && <span>{error}</span>}
         <p className='login__container--register'>
-          Don't you have an account? <Link to='/signup'>Sign Up</Link>
+          {t('loginPage.question')}{' '}
+          <Link to='/signup'>{t('loginPage.signUp')}</Link>
         </p>
       </section>
     </section>
