@@ -1,16 +1,24 @@
-import { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useParams } from 'react-router';
+import { useSelector, useDispatch } from 'react-redux';
+import { getFoundationById } from '../store/toolkit/slices/generalSlice';
 import DonationForm from '../components/DonationForm';
-
-import '../assets/styles/Donation.css';
-import axios from '../axios';
 import withReactContent from 'sweetalert2-react-content';
 import Swal from 'sweetalert2';
-import { useSelector } from 'react-redux';
+import axios from '../axios';
+import '../assets/styles/Donation.css';
 
 const Donation = () => {
-  const MySwal = withReactContent(Swal);
+  const { id: foundationId } = useParams();
+  const dispatch = useDispatch();
   const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    dispatch(getFoundationById(foundationId));
+  }, [dispatch, foundationId]);
+
   const { foundation } = useSelector((state) => state.general);
+  const MySwal = withReactContent(Swal);
 
   const donationSuccessful = () => {
     MySwal.fire({

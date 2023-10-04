@@ -111,7 +111,16 @@
   "petFormSuccess.message": "Hemos recibido tu solicitud de adopcion!",
   "petFormSuccess.button": "REGRESAR AL INICIO",
   "petFormRepeat.message": "Ya has enviado una solicitud para adoptar esta mascota",
+  "donation": "",
+  "donationForm": "",
+  "validateDonation.identification": "Se requiere un numero de identificacion",
+  "validateDonation.cardNumber": "Se requiere un numero de tarjeta de credito",
+  "validateDonation.expirationDate": "Se requiere una fecha de expiracion",
+  "validateDonation.cvcCode": "Se requiere codigo de seguridad cvc",
+  "validateDonation.amount": "Se requiere un importe de la donacion",
+  "validateDonation.dues": "Se requiere un numero de cuotas",
+  "validateDonation.invalid.dues": "Numero de cuotas invalido",
   "privateRoute.loading": "Cargando...",
-  "notFound.status": "ERROR 404 ",
+  "notFound.status": "ERROR 404",
   "notFound.message": "La pagina que intentas buscar no existe"
 }

@@ -288,6 +288,22 @@ export const bulkReject = createAsyncThunk(
   }
 );
 
+export const getFoundationById = createAsyncThunk(
+  'foundations/getFoundationById',
+  async (foundationId) => {
+    try {
+      let response = await axios.get(`/foundations/${foundationId}`);
+
+      return response.data;
+    } catch (e) {
+      return MySwal.fire({
+        title: <strong>{e.response.data.error}</strong>,
+        icon: 'error',
+      });
+    }
+  }
+);
+
 export const listFoundationRequests = createAsyncThunk(
   'foundations/listFoundationRequests',
   async (foundationId) => {
@@ -486,6 +502,13 @@ export const generalSlice = createSlice({
         );
       })
       .addCase(bulkReject.rejected, (state, { error }) => {
+        state.error = error.message;
+      })
+      .addCase(getFoundationById.pending, () => {})
+      .addCase(getFoundationById.fulfilled, (state, { payload }) => {
+        state.foundation = payload;
+      })
+      .addCase(getFoundationById.rejected, (state, { error }) => {
         state.error = error.message;
       })
       .addCase(listFoundationRequests.pending, () => {})
