@@ -1,3 +1,4 @@
+import { useTranslation } from 'react-i18next';
 import '../assets/styles/CardModal.css';
 
 const CardModal = ({
@@ -9,6 +10,8 @@ const CardModal = ({
   handleDeletePet,
   children,
 }) => {
+  const { t } = useTranslation();
+
   const handleConfirm = (e) => {
     if (requestResponse === 'approve') {
       handleApprove(id);
@@ -28,10 +31,10 @@ const CardModal = ({
         <p>{children}</p>
         <div className='class-modal__buttons'>
           <button name='pending' onClick={handleConfirm}>
-            Confirm
+            {t('cardModal.confirm')}
           </button>
           <button name='pending' onClick={onRequestResponse}>
-            Cancel
+            {t('cardModal.cancel')}
           </button>
         </div>
       </div>

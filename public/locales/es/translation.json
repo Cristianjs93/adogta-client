@@ -51,5 +51,22 @@
   "verify.email": "Por favor, verifica tu correo!",
   "verify.inbox": "Revisa tu bandeja de entrada",
   "authVerified.email": "Tu correo fue verificado exitosamente!",
-  "authVerified.redirected": "Redireccionando al inicio"
+  "authVerified.redirected": "Redireccionando al inicio",
+  "userProfile.updated.message": "Perfil actualizado exitosamente!",
+  "userProfile.hello": "Hola",
+  "userProfile.change.picture": "Cambia tu foto de perfil",
+  "userProfile.address.placeholder": "Direccion",
+  "userProfile.phoneNumber.placeholder": "Telefono",
+  "userProfile.button": "Actualizar perfil",
+  "userProfile.adoption.request": "Solicitudes de adopcion",
+  "adoptionRequest.approve": "Aprovar",
+  "adoptionRequest.reject": "Rechazar",
+  "adoptionRequest.requestResponse.approve": "aprobar",
+  "adoptionRequest.requestResponse.reject": "rechazar",
+  "adoptionRequest.status.pending": "pendiente",
+  "adoptionRequest.status.approved": "aprobada",
+  "adoptionRequest.status.rejected": "rechazada",
+  "adoptionRequest.sure": "Estas seguro que quieres {{requestResponse}} esta peticion? Esta accion no puede deshacerse",
+  "cardModal.confirm": "Confirmar",
+  "cardModal.cancel": "Cancelar"
 }

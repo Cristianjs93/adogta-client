@@ -181,7 +181,7 @@ function RegisterPage() {
           </label>
           <div className='buttomForm'>
             <PrimaryButton
-              children={'Sign up'}
+              children={t('loginPage.signUp')}
               color={'primaryButton registerForm'}
               data-testid='submitButton'
             />

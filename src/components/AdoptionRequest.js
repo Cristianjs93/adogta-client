@@ -1,13 +1,13 @@
 import { useState } from 'react';
-
+import { useTranslation } from 'react-i18next';
 import CardModal from './CardModal';
-
 import '../assets/styles/AdoptionRequest.css';
 
 const AdoptionRequest = ({ request, handleReject, handleApprove }) => {
   let classStatus = '';
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [requestResponse, setRequestResponse] = useState('pending');
+  const { t } = useTranslation();
 
   const handleRequestResponse = (e) => {
     const { name } = e.target;
@@ -31,7 +31,13 @@ const AdoptionRequest = ({ request, handleReject, handleApprove }) => {
         <div className='request-container__lower-text'>
           <p>
             STATUS:{' '}
-            <span className={classStatus}>{request.responseStatus}</span>
+            <span className={classStatus}>
+              {request.responseStatus === 'pending'
+                ? t('adoptionRequest.status.pending')
+                : request.responseStatus === 'approved'
+                ? t('adoptionRequest.status.approved')
+                : t('adoptionRequest.status.rejected')}
+            </span>
           </p>
           {handleApprove && (
             <div className='request-container__buttons'>
@@ -39,13 +45,13 @@ const AdoptionRequest = ({ request, handleReject, handleApprove }) => {
                 name='approve'
                 className='button-accept'
                 onClick={handleRequestResponse}>
-                Approve
+                {t('adoptionRequest.approve')}
               </button>
               <button
                 name='reject'
                 className='button-reject'
                 onClick={handleRequestResponse}>
-                Reject
+                {t('adoptionRequest.reject')}
               </button>
             </div>
           )}
@@ -58,8 +64,12 @@ const AdoptionRequest = ({ request, handleReject, handleApprove }) => {
           requestResponse={requestResponse}
           handleApprove={handleApprove}
           handleReject={handleReject}>
-          Are you sure you want to {requestResponse} this request? This action
-          can't be undone
+          {t('adoptionRequest.sure', {
+            requestResponse:
+              requestResponse === 'approve'
+                ? t('adoptionRequest.requestResponse.approve')
+                : t('adoptionRequest.requestResponse.reject'),
+          })}
         </CardModal>
       )}
     </>

@@ -51,5 +51,22 @@
   "verify.email": "Please verify your email!",
   "verify.inbox": "Check your inbox!",
   "authVerified.email": "Your email was successfully verified!",
-  "authVerified.redirected": "Redirected to home"
+  "authVerified.redirected": "Redirected to home",
+  "userProfile.updated.message": "Profile updated successfully!",
+  "userProfile.hello": "Hello",
+  "userProfile.change.picture": "Change profile picture",
+  "userProfile.address.placeholder": "Address",
+  "userProfile.phoneNumber.placeholder": "Phone Number",
+  "userProfile.button": "Update profile",
+  "userProfile.adoption.request": "Adoption Requests",
+  "adoptionRequest.approve": "Approve",
+  "adoptionRequest.reject": "Reject",
+  "adoptionRequest.requestResponse.approve": "approve",
+  "adoptionRequest.requestResponse.reject": "reject",
+  "adoptionRequest.status.pending": "pending",
+  "adoptionRequest.status.approved": "accepted",
+  "adoptionRequest.status.rejected": "rejected",
+  "adoptionRequest.sure": "Are you sure you want to {{requestResponse}} this request? This action can't be undone",
+  "cardModal.confirm": "Confirm",
+  "cardModal.cancel": "Cancel"
 }

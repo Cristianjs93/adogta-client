@@ -1,15 +1,16 @@
 import React, { useState, useEffect } from 'react';
-import { FaUserCircle } from 'react-icons/fa';
 import { useDispatch, useSelector } from 'react-redux';
-import '../assets/styles/UserProfile.css';
-import { PrimaryButton } from '../components/PrimaryButton';
+import { useTranslation } from 'react-i18next';
 import {
   listUserRequests,
   updateUserProfile,
 } from '../store/toolkit/slices/generalSlice';
 import AdoptionRequest from '../components/AdoptionRequest';
+import { PrimaryButton } from '../components/PrimaryButton';
 import withReactContent from 'sweetalert2-react-content';
 import Swal from 'sweetalert2';
+import { FaUserCircle } from 'react-icons/fa';
+import '../assets/styles/UserProfile.css';
 
 function Profile() {
   const { name, email, address, phoneNumber, _id, role, photoUrl } =
@@ -27,6 +28,8 @@ function Profile() {
     role,
     imageFile: null,
   });
+
+  const { t } = useTranslation();
 
   useEffect(() => {
     dispatch(listUserRequests(_id));
@@ -63,7 +66,7 @@ function Profile() {
     event.preventDefault();
     dispatch(updateUserProfile(updateProfile));
     MySwal.fire({
-      title: <strong>Profile updated successfully!</strong>,
+      title: <strong>{t('userProfile.updated.message')}</strong>,
       icon: 'success',
     });
   };
@@ -71,7 +74,9 @@ function Profile() {
   return (
     <section className='userProfile'>
       <div className='userProfile__container'>
-        <h2 className='userProfile__container--title'>Hello {name}!</h2>
+        <h2 className='userProfile__container--title'>
+          {t('userProfile.hello')} {name}!
+        </h2>
         <form
           className='userProfile__container--form'
           onSubmit={handleSubmit}
@@ -95,7 +100,7 @@ function Profile() {
           <label
             htmlFor='imageUpload'
             className='updateProfilePic userProfile__container--inputs'>
-            Change profile picture
+            {t('userProfile.change.picture')}{' '}
           </label>
           <input
             type='file'
@@ -110,7 +115,7 @@ function Profile() {
             id='name'
             type='text'
             name='name'
-            placeholder={name || 'Name'}
+            placeholder={name || t('registerPage.name.placeholder')}
             className='userProfile__container--inputs'
             onChange={onChange}
             required={name ? true : false}
@@ -121,7 +126,7 @@ function Profile() {
             id='email'
             type='email'
             name='email'
-            placeholder='Email'
+            placeholder={t('registerPage.email.placeholder')}
             value={email}
             disabled
             className='userProfile__container--inputs'
@@ -130,7 +135,7 @@ function Profile() {
             id='address'
             type='text'
             name='address'
-            placeholder={address || 'Address'}
+            placeholder={address || t('userProfile.address.placeholder')}
             className='userProfile__container--inputs'
             onChange={onChange}
             required={address ? true : false}
@@ -141,7 +146,9 @@ function Profile() {
             id='phoneNumber'
             type='number'
             name='phoneNumber'
-            placeholder={phoneNumber || 'Phone Number'}
+            placeholder={
+              phoneNumber || t('userProfile.phoneNumber.placeholder')
+            }
             className='userProfile__container--inputs'
             onChange={onChange}
             required={phoneNumber ? true : false}
@@ -149,14 +156,14 @@ function Profile() {
             data-testid='phoneNumber'
           />
           <PrimaryButton
-            children={'Update profile'}
+            children={t('userProfile.button')}
             color={'primaryButton updateUser'}
           />
         </form>
       </div>
       {requests.length > 0 && (
         <>
-          <h2 className='request-title'>Adoption Requests</h2>
+          <h2 className='request-title'>{t('userProfile.adoption.request')}</h2>
           <section className='requests-list'>
             {requests.map((req) => (
               <AdoptionRequest
