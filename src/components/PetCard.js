@@ -1,14 +1,14 @@
 import { useState } from 'react';
-import { withRouter } from 'react-router-dom';
-import { FaMinus } from 'react-icons/fa';
-import { IconContext } from 'react-icons';
-import { deletePet } from '../store/toolkit/slices/generalSlice';
 import { useDispatch, useSelector } from 'react-redux';
+import { useTranslation } from 'react-i18next';
+import { deletePet } from '../store/toolkit/slices/generalSlice';
+import { withRouter } from 'react-router-dom';
+import { IconContext } from 'react-icons';
 import CardImage from './CardImage';
 import CardModal from './CardModal';
-import withReactContent from 'sweetalert2-react-content';
 import Swal from 'sweetalert2';
-
+import withReactContent from 'sweetalert2-react-content';
+import { FaMinus } from 'react-icons/fa';
 import '../assets/styles/PetCard.css';
 
 const PetCard = (props) => {
@@ -34,6 +34,8 @@ const PetCard = (props) => {
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [requestResponse, setRequestResponse] = useState('pending');
 
+  const { t } = useTranslation();
+
   const MySwal = withReactContent(Swal);
 
   const handleOpenImage = () => {
@@ -48,7 +50,7 @@ const PetCard = (props) => {
     dispatch(deletePet(_id));
     onPetsChange();
     MySwal.fire({
-      title: <strong>Pet deleted successfully!</strong>,
+      title: <strong>{t('petCard.delete.message')}</strong>,
       icon: 'success',
     });
   };
@@ -71,7 +73,7 @@ const PetCard = (props) => {
         <div className='card-list-item'>
           {adopted && (
             <div className='card-list-message'>
-              <p>Adopted</p>
+              <p>{t('petCard.adoption.status')}</p>
             </div>
           )}
           <img
@@ -83,7 +85,7 @@ const PetCard = (props) => {
           <div className='card-list-item__details' onClick={handleClick}>
             <h3 className='card-list-item__details--title'>{name}</h3>
             <p className='card-list-item__details--text'>
-              <span>Age:</span> {age}
+              <span>{t('petManagePage.age')}</span> {age}
             </p>
             <p className='card-list-item__details--text'>{description}</p>
           </div>
@@ -115,7 +117,7 @@ const PetCard = (props) => {
           requestResponse={requestResponse}
           onRequestResponse={handleRequestResponse}
           handleDeletePet={handleDeletePet}>
-          Are you sure you want to delete pet {name}
+          {t('petCard.delete.confirmation')} {name}?
         </CardModal>
       )}
     </>

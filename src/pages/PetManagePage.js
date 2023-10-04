@@ -1,19 +1,19 @@
 import { useEffect } from 'react';
 import { useParams } from 'react-router';
-import AdoptionRequest from '../components/AdoptionRequest';
 import { useSelector, useDispatch } from 'react-redux';
+import { useTranslation } from 'react-i18next';
 import {
   updateRequest,
   bulkReject,
 } from '../store/toolkit/slices/generalSlice';
-
 import { selectPet } from '../store/toolkit/slices/generalSlice';
-
+import AdoptionRequest from '../components/AdoptionRequest';
 import '../assets/styles/PetManagePage.css';
 
 const PetManagePage = () => {
   const { id: petId } = useParams();
   const dispatch = useDispatch();
+  const { t } = useTranslation();
 
   //reading info
   useEffect(() => {
@@ -46,7 +46,7 @@ const PetManagePage = () => {
             <article className='pet-info__text'>
               <h2>{pet.name}</h2>
               <p className='pet-info__text--label'>
-                <span>Age:</span> {pet.age}
+                <span>{t('petManagePage.age')}</span> {pet.age}
               </p>
               <p className='pet-info__text--description'>{pet.description}</p>
             </article>

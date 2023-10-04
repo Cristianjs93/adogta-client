@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import usePetForm from './usePetForm';
+import { useTranslation } from 'react-i18next';
 import validateInfo from './validateInfo';
 
 const PetFormSignUp = ({ submitForm }) => {
@@ -10,12 +11,13 @@ const PetFormSignUp = ({ submitForm }) => {
   );
 
   const statePet = useSelector((state) => state.general.selectedPet);
-  const general = useSelector((state) => state.general);
 
   const [pet, setPet] = useState({
     name: '',
     photoUrl: '',
   });
+
+  const { t } = useTranslation();
 
   useEffect(() => {
     setPet(statePet);
@@ -23,25 +25,27 @@ const PetFormSignUp = ({ submitForm }) => {
 
   return (
     <div className='petform__rightContainer' data-testid='petForm'>
-      <button onClick={() => console.log(general)}>general</button>
       <form
         className='petform__rightContainerForm'
         onSubmit={handleSubmit}
         data-testid='petFormSubmit'>
-        <h1>{`You're one step closer to be with your dream companion ${pet.name}`}</h1>
+        <h1>
+          {t('petFormSignUp.closer')}
+          {pet.name}
+        </h1>
 
         <div className='petform__rightContainerForm--inputs'>
           <label
             className='petform__rightContainerForm--label'
             htmlFor='address'>
-            Address
+            {t('userProfile.address.placeholder')}
           </label>
           <input
             id='address'
             type='text'
             name='address'
             className='petform__rightContainerForm--input'
-            placeholder='Enter your address'
+            placeholder={t('petFormSignUp.address.placeholder')}
             value={values.address}
             onChange={handleChange}
             data-testid='address'
@@ -52,14 +56,14 @@ const PetFormSignUp = ({ submitForm }) => {
           <label
             className='petform__rightContainerForm--label'
             htmlFor='phoneNumber'>
-            Phone Number
+            {t('userProfile.phoneNumber.placeholder')}
           </label>
           <input
             id='phoneNumber'
             type='phoneNumber'
             name='phoneNumber'
             className='petform__rightContainerForm--input'
-            placeholder='Enter your phone number'
+            placeholder={t('petFormSignUp.phoneNumber.placeholder')}
             value={values.phoneNumber}
             onChange={handleChange}
             data-testid='phoneNumber'
@@ -70,7 +74,7 @@ const PetFormSignUp = ({ submitForm }) => {
           <label
             className='petform__rightContainerForm--label'
             htmlFor='textarea'>
-            Description
+            {t('petFormSignUp.description')}
           </label>
           <textarea
             id='description'
@@ -78,7 +82,7 @@ const PetFormSignUp = ({ submitForm }) => {
             col='100'
             row='200'
             className='petform__rightContainerForm--textarea'
-            placeholder='Enter a complete description'
+            placeholder={t('petFormSignUp.description.placeholder')}
             value={values.description}
             onChange={handleChange}
             data-testid='description'
@@ -88,7 +92,7 @@ const PetFormSignUp = ({ submitForm }) => {
           )}
         </div>
         <button className='petform__rightContainerForm--button' type='submit'>
-          ADOPT ME
+          {t('aboutSection.adopt.me')}
         </button>
       </form>
     </div>

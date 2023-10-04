@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import '../../assets/styles/Slider2.css';
-import { FaArrowAltCircleRight, FaArrowAltCircleLeft } from 'react-icons/fa';
-import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router';
+import { useDispatch, useSelector } from 'react-redux';
 import { selectPet } from '../../store/toolkit/slices/generalSlice';
+import { FaArrowAltCircleRight, FaArrowAltCircleLeft } from 'react-icons/fa';
+import '../../assets/styles/Slider2.css';
 
 const Slider2 = () => {
   const dispatch = useDispatch();

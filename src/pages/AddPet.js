@@ -1,18 +1,21 @@
 import React, { useRef, useState, useEffect } from 'react';
-import { FaCloudUploadAlt } from 'react-icons/fa';
-import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router';
-import '../assets/styles/AddPet.css';
-import { PrimaryButton } from '../components/PrimaryButton';
+import { useDispatch, useSelector } from 'react-redux';
+import { useTranslation } from 'react-i18next';
 import { addPets, resetError } from '../store/toolkit/slices/generalSlice';
+import { PrimaryButton } from '../components/PrimaryButton';
 import withReactContent from 'sweetalert2-react-content';
 import Swal from 'sweetalert2';
+import { FaCloudUploadAlt } from 'react-icons/fa';
+import '../assets/styles/AddPet.css';
 
 function AddPet() {
   const { id: foundationId } = useParams();
   const dispatch = useDispatch();
 
   const error = useSelector((state) => state.general.error);
+
+  const { t } = useTranslation();
 
   useEffect(() => {
     dispatch(resetError());
@@ -92,14 +95,14 @@ function AddPet() {
 
     if (!pet.petName || !pet.petAge || !pet.petDescription) {
       return MySwal.fire({
-        title: <strong>All the fields must be filled</strong>,
+        title: <strong>{t('addPet.error.field')}</strong>,
         icon: 'error',
       });
     }
 
     if (!pet.photoUrl.length) {
       return MySwal.fire({
-        title: <strong>Select a image for your pet</strong>,
+        title: <strong>{t('addPet.error.image')}</strong>,
         icon: 'error',
       });
     }
@@ -124,7 +127,7 @@ function AddPet() {
     setCounter(0);
 
     MySwal.fire({
-      title: <strong>Pet added successfully!</strong>,
+      title: <strong>{t('addPet.success')}</strong>,
       icon: 'success',
     });
   };
@@ -144,7 +147,7 @@ function AddPet() {
   return (
     <section className='registerPets'>
       <div className='registerPets__container'>
-        <h2 className='registerPets__container--title'>Add Pet's</h2>
+        <h2 className='registerPets__container--title'>{t('addPet.title')}</h2>
         <form onSubmit={submit} data-testid='form'>
           <div
             className='container__dropzone'
@@ -153,14 +156,17 @@ function AddPet() {
             onClick={handleClick}
             multiple>
             <p className='container__dropzone--text'>
-              Click to select or drag and drop your Pet images here....
+              {t('addPet.image.select')}
             </p>
             <i className='container__dropzone--uploadIcon'>
               <FaCloudUploadAlt />
             </i>
           </div>
           <div className='container__dropzone--inputs'>
-            <h3 className='container__dropzone--counter'>{`Images uploaded: ${counter}`}</h3>
+            <h3 className='container__dropzone--counter'>
+              {t('addPet.Images.uploaded')}
+              {counter}
+            </h3>
             <input
               type='file'
               ref={fileInput}
@@ -173,14 +179,14 @@ function AddPet() {
             />
             {pet.error.petName && (
               <span className='container__dropzone--inputsErrors'>
-                *Please enter a name for your pet
+                {t('addPet.error.name')}
               </span>
             )}
             <input
               type='text'
               name='petName'
               id='name'
-              placeholder="Pet's name"
+              placeholder={t('addPet.name.placeholder')}
               value={pet.petName}
               data-testid='name'
               onChange={InputChange}
@@ -189,7 +195,7 @@ function AddPet() {
             />
             {pet.error.petAge && (
               <span className='container__dropzone--inputsErrors'>
-                *Please enter an age for your pet
+                {t('addPet.error.age')}
               </span>
             )}
             <input
@@ -197,7 +203,7 @@ function AddPet() {
               name='petAge'
               id='age'
               min='0'
-              placeholder="Pet's age (Months)"
+              placeholder={t('addPet.age.placeholder')}
               value={pet.petAge}
               data-testid='age'
               onChange={InputChange}
@@ -206,14 +212,14 @@ function AddPet() {
             />
             {pet.error.petDescription && (
               <span className='container__dropzone--inputsErrors'>
-                *Please enter a description for your pet
+                {t('addPet.error.description')}
               </span>
             )}
             <textarea
               rows='7'
               name='petDescription'
               id='description'
-              placeholder="Write a pet's description"
+              placeholder={t('addPet.description.placeholder')}
               value={pet.petDescription}
               data-testid='description'
               onChange={InputChange}
@@ -225,7 +231,7 @@ function AddPet() {
             )}
             <div className='addButton'>
               <PrimaryButton
-                children={'Add Pet'}
+                children={t('addPet.button')}
                 color={'primaryButton addPets'}
               />
             </div>

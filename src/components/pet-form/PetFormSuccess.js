@@ -1,13 +1,16 @@
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
 import { Player } from '@lottiefiles/react-lottie-player';
 import Dog4 from '../../assets/images/54287-dogito.json';
 
 const PetFormSuccess = () => {
+  const { t } = useTranslation();
+
   return (
     <div className='petform__successContainer' data-testid='success'>
       <h1 className='petform__successContainer--success'>
-        We have received your request!
+        {t('petFormSuccess.message')}
       </h1>
       <Player
         className='petform__successContainer--img'
@@ -17,7 +20,7 @@ const PetFormSuccess = () => {
       />
       <Link to='/' data-testid='successButton'>
         <button className='petform__successContainer--button'>
-          RETURN TO HOME
+          {t('petFormSuccess.button')}
         </button>
       </Link>
     </div>

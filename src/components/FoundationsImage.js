@@ -55,7 +55,7 @@ const FoundationsImage = ({ id, photo_url, name, address, email, phone }) => {
             className='icons-foundations'
             alt='icon'
           />
-          {phone}{' '}
+          {phone}
         </h2>
       </figure>
     </Link>

@@ -4,7 +4,6 @@ import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
 import { Player } from '@lottiefiles/react-lottie-player';
 import Dog from '../assets/images/23919-error-doggy.json';
-
 import '../assets/styles/AboutSection.css';
 
 const AboutSection = () => {
