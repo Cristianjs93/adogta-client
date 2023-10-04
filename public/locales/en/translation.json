@@ -27,8 +27,9 @@
   "loginPage.signUp": "Sign Up",
   "loginPage.email.placeholder": "Email",
   "loginPage.password.placeholder": "Password",
-  "login.invalid.password": "Invalid password",
   "login.invalid.user": "User does not exist",
+  "login.invalid.verify": "Please verify your email",
+  "login.invalid.password": "Invalid password",
   "registerPage.signUp": "Sign up to continue:",
   "registerPage.name.placeholder": "Name",
   "registerPage.confirm.password.placeholder": "Confirm password",
@@ -48,6 +49,7 @@
   "registerPage.agree.terms": "I agree to the",
   "registerPage.terms": "terms & conditions",
   "registerPage.already.member": "Already a member?",
+  "registerPage.create.error.email": "Email is already taken",
   "verify.email": "Please verify your email!",
   "verify.inbox": "Check your inbox!",
   "authVerified.email": "Your email was successfully verified!",
@@ -68,5 +70,13 @@
   "adoptionRequest.status.rejected": "rejected",
   "adoptionRequest.sure": "Are you sure you want to {{requestResponse}} this request? This action can't be undone",
   "cardModal.confirm": "Confirm",
-  "cardModal.cancel": "Cancel"
+  "cardModal.cancel": "Cancel",
+  "foundationsMenu.foundations": "Foundations",
+  "foundationsMenu.search.placeholder": "Search here...",
+  "foundationsMenu.pagination.prev": "Prev",
+  "foundationsMenu.pagination.next": "Next",
+  "petListPage.looking.friend": "Are you looking for a new friend?",
+  "petListPage.no.pets.foundation": "You don't have any pets registered",
+  "petListPage.no.pets.user": "No pets available for this foundation",
+  "petListPage.donate": "Donate"
 }

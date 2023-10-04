@@ -27,8 +27,9 @@
   "loginPage.signUp": "Registrate",
   "loginPage.email.placeholder": "Correo",
   "loginPage.password.placeholder": "Contraseña",
-  "login.invalid.password": "Contraseña invalida",
   "login.invalid.user": "El usuario no existe",
+  "login.invalid.verify": "Por favor, verifica tu correo",
+  "login.invalid.password": "Contraseña invalida",
   "registerPage.signUp": "Registrate para continuar:",
   "registerPage.name.placeholder": "Nombre",
   "registerPage.confirm.password.placeholder": "Confirmar la contrasena",
@@ -48,6 +49,7 @@
   "registerPage.agree.terms": "Estoy de acuerdo con los",
   "registerPage.terms": "terminos y condiciones",
   "registerPage.already.member": "Ya tienes una cuenta?",
+  "registerPage.create.error.email": "El correo proporcionado ya esta en uso",
   "verify.email": "Por favor, verifica tu correo!",
   "verify.inbox": "Revisa tu bandeja de entrada",
   "authVerified.email": "Tu correo fue verificado exitosamente!",
@@ -68,5 +70,13 @@
   "adoptionRequest.status.rejected": "rechazada",
   "adoptionRequest.sure": "Estas seguro que quieres {{requestResponse}} esta peticion? Esta accion no puede deshacerse",
   "cardModal.confirm": "Confirmar",
-  "cardModal.cancel": "Cancelar"
+  "cardModal.cancel": "Cancelar",
+  "foundationsMenu.foundations": "Fundaciones",
+  "foundationsMenu.search.placeholder": "Busca aqui...",
+  "foundationsMenu.pagination.prev": "Anterior",
+  "foundationsMenu.pagination.next": "Siguiente",
+  "petListPage.looking.friend": "Estas buscando un nuevo amigo?",
+  "petListPage.no.pets.foundations": "No tienes ninguna mascota registrada",
+  "petListPage.no.pets.user": "No hay mascotas disponibles en esta fundacion",
+  "petListPage.donate": "Donar"
 }

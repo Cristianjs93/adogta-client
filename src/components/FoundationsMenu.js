@@ -1,7 +1,8 @@
+import { useState, useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
+import Home from '../pages/Home';
 import FoundationsImage from '../components/FoundationsImage';
 import customAxios from '../axios';
-import { useState, useEffect } from 'react';
-import Home from '../pages/Home';
 
 const FoundationsMenu = () => {
   const [foundations, setFoundations] = useState([]);
@@ -9,6 +10,8 @@ const FoundationsMenu = () => {
   const [disablePrev, setDisablePrev] = useState(true);
   const [disableNext, setDisableNext] = useState(false);
   const [page, setPage] = useState(1);
+  const { t } = useTranslation();
+
   const route = customAxios.defaults.baseURL + '/foundations?page=';
   const foundationsPerPage = 10;
 
@@ -62,13 +65,13 @@ const FoundationsMenu = () => {
 
   return (
     <>
-      <h1 className='title-foundations'> Foundations </h1>
+      <h1 className='title-foundations'>{t('foundationsMenu.foundations')}</h1>
 
       <div className='search-foundations'>
         <input
           type='text'
           className='search-input-foundations'
-          placeholder='Search here...'
+          placeholder={t('foundationsMenu.search.placeholder')}
           onChange={(e) => handleSearch(e)}
         />
         <br />
@@ -95,7 +98,7 @@ const FoundationsMenu = () => {
       <div className='container-buttons-foundations'>
         <input
           type='submit'
-          value='Prev'
+          value={t('foundationsMenu.pagination.prev')}
           className='buttons-Foundation'
           disabled={disablePrev}
           onClick={() => {
@@ -105,7 +108,7 @@ const FoundationsMenu = () => {
         />
         <input
           type='submit'
-          value='Next'
+          value={t('foundationsMenu.pagination.next')}
           className='buttons-Foundation'
           disabled={disableNext}
           onClick={() => {

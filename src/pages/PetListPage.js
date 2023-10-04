@@ -1,17 +1,18 @@
 import { useState, useEffect } from 'react';
 import { useParams, useLocation } from 'react-router';
-import { Link } from 'react-router-dom';
-import { FaPlusCircle } from 'react-icons/fa';
-import { IconContext } from 'react-icons';
 import { useSelector, useDispatch } from 'react-redux';
+import { useTranslation } from 'react-i18next';
+import { Link } from 'react-router-dom';
 import {
   listPets,
   listFoundationRequests,
 } from '../store/toolkit/slices/generalSlice';
+import { IconContext } from 'react-icons';
 import CardList from '../components/CardList';
 import PetCard from '../components/PetCard';
 import PaginationButtons from '../components/PaginationButtons';
 import history from '../history';
+import { FaPlusCircle } from 'react-icons/fa';
 import '../assets/styles/PetListPage.css';
 
 const PetListPage = () => {
@@ -23,6 +24,8 @@ const PetListPage = () => {
 
   const { pets, petListInfo } = useSelector((state) => state.general);
   const { user } = useSelector((state) => state.general);
+
+  const { t } = useTranslation();
 
   let redirectUrl = '';
   const loading = petListInfo.page ? false : true;
@@ -72,7 +75,7 @@ const PetListPage = () => {
     <div className='background-container'>
       {!loading && (
         <>
-          <CardList title='Are you looking for a new friend?'>
+          <CardList title={t('petListPage.looking.friend')}>
             {pets.length > 0 ? (
               pets.map((item) => (
                 <PetCard
@@ -85,11 +88,11 @@ const PetListPage = () => {
               ))
             ) : isFoundation ? (
               <h1 className='no-pets-message' data-testid='noPetsFoundation'>
-                You don't have any pets registered
+                {t('petListPage.no.pets.foundations')}
               </h1>
             ) : (
               <h1 className='no-pets-message' data-testid='noPetsUser'>
-                No pets available for this foundation
+                {t('petListPage.no.pets.user')}
               </h1>
             )}
           </CardList>
@@ -120,7 +123,7 @@ const PetListPage = () => {
         <Link
           to={`/foundations/${foundationId}/donate`}
           className='add-pets-container donate-button'>
-          Donate
+          {t('petListPage.donate')}
         </Link>
       )}
     </div>

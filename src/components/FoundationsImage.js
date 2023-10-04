@@ -1,7 +1,8 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
+import { Link } from 'react-router-dom';
 import { setFoundation } from '../store/toolkit/slices/generalSlice';
+import defaultImage from '../assets/images/foundation-default.jpg';
 import position from '../assets/images/position.png';
 import mail from '../assets/images/mail.png';
 import telephone from '../assets/images/telephone.png';
@@ -28,7 +29,11 @@ const FoundationsImage = ({ id, photo_url, name, address, email, phone }) => {
       className='link-foundations'
       onClick={handleSubmit}>
       <figure className='photo-foundations' data-testid='foundationsCard'>
-        <img className='image-foundations' src={photo_url} alt='pet' />
+        <img
+          className='image-foundations'
+          src={!!photo_url ? photo_url : defaultImage}
+          alt='pet'
+        />
         <h2 className='subtitle-foundations'> {name} </h2>
         <h2 className='text-foundations'>
           <img

@@ -43,6 +43,12 @@ export const registerUser = createAsyncThunk(
 
       return response.data;
     } catch (e) {
+      if (e.response.data.error === 'Email is already taken') {
+        return MySwal.fire({
+          title: <strong>{i18n.t('registerPage.create.error.email')}</strong>,
+          icon: 'error',
+        });
+      }
       return MySwal.fire({
         title: <strong>{e.response.data.error}</strong>,
         icon: 'error',
@@ -90,6 +96,20 @@ export const authUser = createAsyncThunk(
 
       return response.data;
     } catch (e) {
+      if (e.response.data.error === 'User does not exist') {
+        return MySwal.fire({
+          title: <strong>{i18n.t('login.invalid.user')}</strong>,
+          icon: 'error',
+        });
+      }
+
+      if (e.response.data.error === 'Please verify your email') {
+        return MySwal.fire({
+          title: <strong>{i18n.t('login.invalid.verify')}</strong>,
+          icon: 'error',
+        });
+      }
+
       if (e.response.data.error === 'Invalid password') {
         return MySwal.fire({
           title: <strong>{i18n.t('login.invalid.password')}</strong>,
@@ -97,12 +117,10 @@ export const authUser = createAsyncThunk(
         });
       }
 
-      if (e.response.data.error === 'User does not exist') {
-        return MySwal.fire({
-          title: <strong>{i18n.t('login.invalid.user')}</strong>,
-          icon: 'error',
-        });
-      }
+      return MySwal.fire({
+        title: <strong>{e.response.data.error}</strong>,
+        icon: 'error',
+      });
     }
   }
 );
