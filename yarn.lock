@@ -1803,6 +1803,18 @@
   dependencies:
     "@sinonjs/commons" "^1.7.0"
 
+"@stripe/react-stripe-js@^2.3.1":
+  "integrity" "sha512-vXiwcG2ZjAF4AezjP7DJ8jiwxfCWCen/X2rBhyXaKrfQ7+pwmXhsoUlKRa0eLWioY1oelOQOafauNUiwTwFHgQ=="
+  "resolved" "https://registry.npmjs.org/@stripe/react-stripe-js/-/react-stripe-js-2.3.1.tgz"
+  "version" "2.3.1"
+  dependencies:
+    "prop-types" "^15.7.2"
+
+"@stripe/stripe-js@^1.44.1 || ^2.0.0", "@stripe/stripe-js@^2.1.7":
+  "integrity" "sha512-oI620ARpFp5jCXfwIYMxyBJmtTFuAjSA8x3k3JgW1M6cvLmw9XgmNcGNegQWmirpozhFNflxrZEgp10og+6MSA=="
+  "resolved" "https://registry.npmjs.org/@stripe/stripe-js/-/stripe-js-2.1.7.tgz"
+  "version" "2.1.7"
+
 "@surma/rollup-plugin-off-main-thread@^2.2.3":
   "integrity" "sha512-lR8q/9W7hZpMWweNiAKU7NQerBnzQQLvi8qnTDU/fxItPhtZVMbPV3lbCwjhIlNBe9Bbr5V+KHshvWmVSG9cxQ=="
   "resolved" "https://registry.npmjs.org/@surma/rollup-plugin-off-main-thread/-/rollup-plugin-off-main-thread-2.2.3.tgz"
@@ -8291,9 +8303,9 @@
   "version" "4.2.0"
 
 "postcss@^7.0.0 || ^8.0.1", "postcss@^8", "postcss@^8.0.0", "postcss@^8.0.3", "postcss@^8.0.9", "postcss@^8.1.0", "postcss@^8.1.4", "postcss@^8.2", "postcss@^8.2.14", "postcss@^8.2.15", "postcss@^8.2.2", "postcss@^8.3", "postcss@^8.3.5", "postcss@^8.4", "postcss@^8.4.21", "postcss@^8.4.23", "postcss@^8.4.4", "postcss@^8.4.6", "postcss@>= 8", "postcss@>=8", "postcss@>=8.0.9":
-  "integrity" "sha512-7ZEao1g4kd68l97aWG/etQKPKq07us0ieSZ2TnFDk11i0ZfDW2AwKHYU8qv4MZKqN2fdBfg+7q0ES06UA73C1g=="
-  "resolved" "https://registry.npmjs.org/postcss/-/postcss-8.4.30.tgz"
-  "version" "8.4.30"
+  "integrity" "sha512-PS08Iboia9mts/2ygV3eLpY5ghnUcfLV/EXTOW1E2qYxJKGGBUtNjN76FYHnMs36RmARn41bC0AZmn+rR0OVpQ=="
+  "resolved" "https://registry.npmjs.org/postcss/-/postcss-8.4.31.tgz"
+  "version" "8.4.31"
   dependencies:
     "nanoid" "^3.3.6"
     "picocolors" "^1.0.0"
@@ -8542,7 +8554,7 @@
     "strip-ansi" "^6.0.1"
     "text-table" "^0.2.0"
 
-"react-dom@*", "react-dom@^15.5.4 || ^16.0.0 || ^17.0.0 || ^18.0.0", "react-dom@^16.0.0 || ^17.0.0", "react-dom@^16.8 || ^17.0 || ^18.0", "react-dom@^17.0.2":
+"react-dom@*", "react-dom@^15.5.4 || ^16.0.0 || ^17.0.0 || ^18.0.0", "react-dom@^16.0.0 || ^17.0.0", "react-dom@^16.8 || ^17.0 || ^18.0", "react-dom@^16.8.0 || ^17.0.0 || ^18.0.0", "react-dom@^17.0.2":
   "integrity" "sha512-s4h96KtLDUQlsENhMn1ar8t2bEa+q/YAtj8pPPdIjPDGBDIVNsrD9aXNWqspUe6AzKCIG0C1HZZLqLV7qpOBGA=="
   "resolved" "https://registry.npmjs.org/react-dom/-/react-dom-17.0.2.tgz"
   "version" "17.0.2"
