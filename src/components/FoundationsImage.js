@@ -31,7 +31,9 @@ const FoundationsImage = ({ id, photo_url, name, address, email, phone }) => {
       <figure className='photo-foundations' data-testid='foundationsCard'>
         <img
           className='image-foundations'
-          src={!!photo_url ? photo_url : defaultImage}
+          src={
+            !!photo_url && photo_url !== 'undefined' ? photo_url : defaultImage
+          }
           alt='pet'
         />
         <h2 className='subtitle-foundations'> {name} </h2>

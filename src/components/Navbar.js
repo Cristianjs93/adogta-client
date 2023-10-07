@@ -21,8 +21,6 @@ function Navbar({ toggle }) {
     recentUser = {};
   }
 
-  const general = useSelector((state) => state.general);
-
   const status = useSelector((state) => state.general.status);
 
   const { photoUrl, name, _id, role } = recentUser;
@@ -55,7 +53,6 @@ function Navbar({ toggle }) {
   return (
     <>
       <nav className='navBar' data-testid='navBar'>
-        <button onClick={() => console.log(general)}>General</button>
         <div className='navBar__container'>
           <Link className='navBar__container--logo' to='/' data-testid='adogta'>
             <MdPets className='navBar__container--pet' />

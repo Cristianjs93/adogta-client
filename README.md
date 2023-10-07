@@ -1,70 +1,94 @@
-# Getting Started with Create React App
+# Adogta App
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## Table of contents 📄
 
-## Available Scripts
+- [Adogta App](#adogta-app)
+  - [Table of contents 📄](#table-of-contents-)
+  - [Overview :writing_hand:](#overview-writing_hand)
+    - [Installation :gear:](#installation-gear)
+    - [The Challenge :weight_lifting_man:](#the-challenge-weight_lifting_man)
+    - [Screenshot 📷](#screenshot-)
+    - [Built with 🛠️](#built-with-️)
+  - [Author 👊](#author-)
 
-In the project directory, you can run:
+## Overview :writing_hand:
 
-### `yarn start`
+Adogta is a web application that connects pet foundations with individuals interested in adopting a furry companion. As a user, you can browse through the foundation's page and view each of the pets they have available for adoption. If you find one you like, you can send an adoption request and wait for the foundation's response, or contribute to their cause by making a donation. As a foundation, you can create and manage pets through a highly intuitive interface.
+The application connects to a backend API developed in Express to handle data. This repository contains the frontend structure. Here is the link to the backend repository: [Backend Repository](https://github.com/Cristianjs93/adogta-server), and the link to the deployed application on Vercel: [Deployed Project]()."
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+### Installation :gear:
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+To get started with the project, follow these steps:
 
-### `yarn test`
+1. Clone the repository:
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+```shell
+git clone https://github.com/Cristianjs93/adogta-client
+```
 
-### `yarn build`
+2. Navigate to the project directory:
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+```shell
+cd adogta-client
+```
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+3. Install the dependencies:
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+```shell
+ npm install
+```
 
-### `yarn eject`
+4. Start the application:
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+```shell
+ npm start
+```
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+### The Challenge :weight_lifting_man:
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+The main challenge of this project is to develop a web application that allows efficient management of foundations, pets, donations, and the creation of unique users. Key functionalities include:
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+- User creation based on roles (USER, ADMIN, FOUNDATION)
+- Add pets: Use the form to add new pets to the foundation through the backend API.
+- Delete pets: Delete products from the pets database via the API with a single click.
+- Edit profile: modify your profile information, photo and more using a single form and update the changes through the API.
+- View Adoption request: the user profile displays the registered adoption request made in the app.
 
-## Learn More
+### Screenshot 📷
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+![Alt text](image.png)
+**_Home page_**
+<br/>
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+![Altv text](image-1.png)
+**_Foundations page_**
+<br/>
 
-### Code Splitting
+![Alt text](image-2.png)
+**_Pets page_**
+<br/>
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+![Alt text](image-4.png)
+**_Pet detail_**
+<br/>
 
-### Analyzing the Bundle Size
+![Alt text](image-3.png)
+**_Pet Adoption request_**
+<br/>
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+![Alt text](image-5.png)
+**_Donation page_**
+<br/>
 
-### Making a Progressive Web App
+![Alt text](image-6.png)
+**_User profile_**
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+### Built with 🛠️
 
-### Advanced Configuration
+- React: JavaScript library for building interactive user interfaces.
+- CSS: easy and organized styling.
+- API: The application consumes a backend API developed in Express to manage product data.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+## Author 👊
 
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `yarn build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+This project was created by [Cristianjs93](https://github.com/Cristianjs93).
