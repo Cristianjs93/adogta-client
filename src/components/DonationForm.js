@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useParams } from 'react-router';
 import { useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import {
@@ -16,6 +17,7 @@ import axios from '../axios';
 import '../assets/styles/DonationForm.css';
 
 const DonationForm = () => {
+  const { id: foundationId } = useParams();
   const { user, foundation } = useSelector((state) => state.general);
   const { t } = useTranslation();
   const elements = useElements();
@@ -31,12 +33,12 @@ const DonationForm = () => {
     setAmount(e.target.value);
   };
 
-  const clearElements = () => {
+  function clearElements() {
     elements.getElement(CardNumberElement).clear();
     elements.getElement(CardExpiryElement).clear();
     elements.getElement(CardCvcElement).clear();
     setAmount('');
-  };
+  }
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -70,13 +72,13 @@ const DonationForm = () => {
         paymentMethod,
         amount: amount * 100,
         email: user.email,
+        foundationId,
+        userId: user._id,
       });
 
       if (!!response.data.message) {
         throw new Error(response.data.message);
       }
-
-      clearElements();
 
       MySwal.fire({
         title: <strong>{t('donation.successful')}</strong>,
@@ -88,6 +90,7 @@ const DonationForm = () => {
         icon: 'error',
       });
     } finally {
+      clearElements();
       setLoading(false);
     }
   };
