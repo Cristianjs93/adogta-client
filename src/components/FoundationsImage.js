@@ -1,14 +1,15 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
-import { setFoundation } from '../store/actionCreators';
+import { Link } from 'react-router-dom';
+import { setFoundation } from '../store/toolkit/slices/generalSlice';
+import defaultImage from '../assets/images/foundation-default.jpg';
 import position from '../assets/images/position.png';
 import mail from '../assets/images/mail.png';
 import telephone from '../assets/images/telephone.png';
 
-const FoundationsImage = (props) => {
-  const { id, photo_url, name, address, email, phone } = props;
+const FoundationsImage = ({ id, photo_url, name, address, email, phone }) => {
   const dispatch = useDispatch();
+
   const handleSubmit = () => {
     dispatch(
       setFoundation({
@@ -21,14 +22,21 @@ const FoundationsImage = (props) => {
       })
     );
   };
+
   return (
     <Link
-      to={'/foundations/' + props.id + '/pets'}
+      to={'/foundations/' + id + '/pets?page=1'}
       className='link-foundations'
       onClick={handleSubmit}>
       <figure className='photo-foundations' data-testid='foundationsCard'>
-        <img className='image-foundations' src={props.photo_url} alt='pet' />
-        <h2 className='subtitle-foundations'> {props.name} </h2>
+        <img
+          className='image-foundations'
+          src={
+            !!photo_url && photo_url !== 'undefined' ? photo_url : defaultImage
+          }
+          alt='pet'
+        />
+        <h2 className='subtitle-foundations'> {name} </h2>
         <h2 className='text-foundations'>
           <img
             id='logo'
@@ -36,11 +44,11 @@ const FoundationsImage = (props) => {
             className='icons-foundations'
             alt='icon'
           />
-          {props.address}
+          {address}
         </h2>
         <h2 className='text-foundations'>
           <img id='logo' src={mail} className='icons-foundations' alt='icon' />
-          {props.email}
+          {email}
         </h2>
         <h2 className='text-foundations'>
           <img
@@ -49,7 +57,7 @@ const FoundationsImage = (props) => {
             className='icons-foundations'
             alt='icon'
           />
-          {props.phone}{' '}
+          {phone}
         </h2>
       </figure>
     </Link>

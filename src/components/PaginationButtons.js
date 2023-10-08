@@ -1,4 +1,5 @@
-import "../assets/styles/PaginationButtons.css";
+import { useTranslation } from 'react-i18next';
+import '../assets/styles/PaginationButtons.css';
 
 const PaginationButtons = ({
   previousButton,
@@ -6,13 +7,15 @@ const PaginationButtons = ({
   handleNextPage,
   handlePreviousPage,
 }) => {
+  const { t } = useTranslation();
+
   return (
-    <div className="list-buttons">
+    <div className='list-buttons'>
       <button disabled={previousButton} onClick={handlePreviousPage}>
-        Previous
+        {t('paginationButtons.prev')}
       </button>
       <button disabled={nextButton} onClick={handleNextPage}>
-        Next
+        {t('paginationButtons.next')}
       </button>
     </div>
   );

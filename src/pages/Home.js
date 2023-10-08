@@ -1,16 +1,30 @@
-import React from "react";
-import AboutSection from "../components/AboutSection";
-import Info from "../components/Info";
-import HelpUsSection from "../components/HelpUs";
-import Whastapp from "../components/Whastapp";
+import React, { useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { resetError, loadUser } from '../store/toolkit/slices/generalSlice';
+import AboutSection from '../components/AboutSection';
+import Info from '../components/Info';
+import HelpUsSection from '../components/HelpUs';
+import Whastapp from '../components/Whastapp';
 
 function Home() {
+  const activeUser = useSelector((state) => state.general.user);
+
+  const dispatch = useDispatch();
+  const token = localStorage.getItem('AUTHORIZATION');
+
+  useEffect(() => {
+    dispatch(resetError());
+    if (token) {
+      dispatch(loadUser());
+    }
+  }, [dispatch, token]);
+
   return (
-    <div data-testid="Home">
+    <div data-testid='Home'>
       <AboutSection />
       <Info />
       <HelpUsSection />
-      <Whastapp />
+      {activeUser && <Whastapp role={activeUser.role} />}
     </div>
   );
 }

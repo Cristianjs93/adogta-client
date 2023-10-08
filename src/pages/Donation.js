@@ -1,83 +1,46 @@
-import { useState } from "react";
-import DonationForm from "../components/DonationForm";
+import React, { useEffect } from 'react';
+import { useParams } from 'react-router';
+import { useSelector, useDispatch } from 'react-redux';
+import { useTranslation } from 'react-i18next';
+import { getFoundationById } from '../store/toolkit/slices/generalSlice';
+import DonationForm from '../components/DonationForm';
+import { Elements } from '@stripe/react-stripe-js';
+import { loadStripe } from '@stripe/stripe-js';
+import i18n from '../i18n';
+import '../assets/styles/Donation.css';
 
-import "../assets/styles/Donation.css";
-import axios from "../axios";
-import withReactContent from "sweetalert2-react-content";
-import Swal from "sweetalert2";
-import { useSelector } from "react-redux";
+const STRIPE = process.env.REACT_APP_STRIPE_PUBLIC_KEY;
+
+const stripePromise = loadStripe(STRIPE, {
+  locale: i18n.language,
+});
 
 const Donation = () => {
-  const MySwal = withReactContent(Swal);
-  const [loading, setLoading] = useState(false);
-  const { foundation } = useSelector((state) => state);
+  const { id: foundationId } = useParams();
+  const dispatch = useDispatch();
+  const { t } = useTranslation();
 
-  const donationSuccessful = () => {
-    MySwal.fire({
-      title: <strong>Thanks for your donation!</strong>,
-      icon: "success",
-    });
-  };
-  const donationError = () => {
-    MySwal.fire({
-      title: <strong>Oops...!</strong>,
-      html: <i>Something went wrong, please try again later!</i>,
-      icon: "error",
-    });
-  };
-  async function submitForm(values, foundationId, user) {
-    try {
-      setLoading(true);
-      const data = {
-        "card[number]": values.cardNumber,
-        "card[exp_year]": values.expYear,
-        "card[exp_month]": values.expMonth,
-        "card[cvc]": values.cvc,
-        name: user.name,
-        last_name: "",
-        email: user.email,
-        default: true,
-        city: "Bogota",
-        address: user.address || "",
-        phone: user.phoneNumber || "",
-        cell_phone: "",
-        doc_type: "CC",
-        doc_number: values.idNumber,
-        value: values.amount,
-        currency: "COP",
-        dues: values.dues,
-        ip: "0.0.0.0",
-        use_default_card_customer: true,
-        foundationId,
-      };
-      await axios.post(`/donate/payment`, data);
-      setLoading(false);
+  useEffect(() => {
+    dispatch(getFoundationById(foundationId));
+  }, [dispatch, foundationId]);
 
-      donationSuccessful();
-    } catch (e) {
-      setLoading(false);
-      console.log(e);
-      donationError();
-    }
-  }
+  const { foundation } = useSelector((state) => state.general);
 
   return (
-    <div className={"petFormContainer petFormGrid"}>
-      <div className="petFormContainer__content--left">
+    <div className={'petFormContainer petFormGrid'}>
+      <div className='petFormContainer__content--left'>
         <img
-          className="petFormContainer__content--left--img"
+          className='petFormContainer__content--left--img'
           src={foundation.photo_url}
           alt={foundation.name}
         />
-        <h2 className="petFormContainer__content--left--text">
-          Thank you for your generous gift to an Adogta foundation. We are
-          thrilled to have your support. Through your donation, we have been
-          able to help the most needed pets, and continue working towards
-          creating meaningful connections. You truly make a difference for us,
-          and we are extremely grateful!
+        <h2 className='petFormContainer__content--left--text'>
+          {t('donation.message')}
         </h2>
       </div>
-      <DonationForm submitForm={submitForm} loading={loading} />
+      <Elements stripe={stripePromise}>
+        <DonationForm />
+      </Elements>
     </div>
   );
 };

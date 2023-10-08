@@ -43,11 +43,13 @@ html {
 .request-container__buttons .button-accept {
   background-color: var(--blue-pigment);
   color: var(--soft-blue);
+  cursor: pointer;
 }
 
 .request-container__buttons .button-reject {
   background-color: red;
   color: var(--soft-blue);
+  cursor: pointer;
 }
 
 .request-container__lower-text {

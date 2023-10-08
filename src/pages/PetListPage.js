@@ -1,38 +1,46 @@
-import { useEffect } from "react";
-import { useParams, useLocation } from "react-router";
-import { Link } from "react-router-dom";
-import { FaPlusCircle } from "react-icons/fa";
-import { IconContext } from "react-icons";
-import { useSelector, useDispatch } from "react-redux";
-import { listPets, listFoundationRequests } from "../store/actionCreators";
-
-import CardList from "../components/CardList";
-import PetCard from "../components/PetCard";
-import PaginationButtons from "../components/PaginationButtons";
-import history from "../history";
-
-import "../assets/styles/PetListPage.css";
+import { useState, useEffect } from 'react';
+import { useParams, useLocation } from 'react-router';
+import { useSelector, useDispatch } from 'react-redux';
+import { useTranslation } from 'react-i18next';
+import { Link } from 'react-router-dom';
+import {
+  listPets,
+  listFoundationRequests,
+} from '../store/toolkit/slices/generalSlice';
+import { IconContext } from 'react-icons';
+import CardList from '../components/CardList';
+import PetCard from '../components/PetCard';
+import PaginationButtons from '../components/PaginationButtons';
+import history from '../history';
+import { FaPlusCircle } from 'react-icons/fa';
+import '../assets/styles/PetListPage.css';
 
 const PetListPage = () => {
-  const { id: foundationId } = useParams();
-  let redirectUrl = "";
   const dispatch = useDispatch();
-  const { pets, petListInfo } = useSelector(state => state);
-  const { user } = useSelector(state => state);
+  const { search } = useLocation();
+  const { id: foundationId } = useParams();
+
+  const [petsChanges, setPetsChanges] = useState(true);
+
+  const { pets, petListInfo } = useSelector((state) => state.general);
+  const { user } = useSelector((state) => state.general);
+
+  const { t } = useTranslation();
+
+  let redirectUrl = '';
   const loading = petListInfo.page ? false : true;
-  const initPage =
-    useLocation().search.slice(useLocation().search.indexOf("=") + 1) || 1;
+  const initPage = search.slice(search.indexOf('=') + 1) || 1;
 
   //initial loading for pets and requests
   useEffect(() => {
-    dispatch(listPets(foundationId, initPage));
+    dispatch(listPets({ initPage, foundationId }));
     dispatch(listFoundationRequests(foundationId));
-  }, [foundationId, dispatch, initPage]);
+  }, [foundationId, dispatch, initPage, petsChanges]);
 
   //checking the role and the id to show or hide some buttons and select som redirects
-  const isFoundation = user.role === "foundation" && user._id === foundationId;
+  const isFoundation = user.role === 'foundation' && user._id === foundationId;
 
-  isFoundation ? (redirectUrl = "/manage") : (redirectUrl = "/request");
+  isFoundation ? (redirectUrl = '/manage') : (redirectUrl = '/request');
 
   //List buttons
   let nextButton = false;
@@ -44,7 +52,7 @@ const PetListPage = () => {
     : (nextButton = false);
 
   const handleNextPage = () => {
-    dispatch(listPets(foundationId, petListInfo.page + 1));
+    dispatch(listPets({ initPage: petListInfo.page + 1, foundationId }));
     history.push({
       pathname: `/foundations/${foundationId}/pets`,
       search: `?page=${petListInfo.page + 1}`,
@@ -52,34 +60,39 @@ const PetListPage = () => {
   };
 
   const handlePreviousPage = () => {
-    dispatch(listPets(foundationId, petListInfo.page - 1));
+    dispatch(listPets({ initPage: petListInfo.page - 1, foundationId }));
     history.push({
       pathname: `/foundations/${foundationId}/pets`,
       search: `?page=${petListInfo.page - 1}`,
     });
   };
 
+  const handlePetsChange = () => {
+    setPetsChanges(!petsChanges);
+  };
+
   return (
-    <div className="background-container">
+    <div className='background-container'>
       {!loading && (
         <>
-          <CardList title="Are you looking for a new friend?">
+          <CardList title={t('petListPage.looking.friend')}>
             {pets.length > 0 ? (
-              pets.map(item => (
+              pets.map((item) => (
                 <PetCard
                   key={item._id}
                   {...item}
                   redirectUrl={redirectUrl}
                   isFoundation={isFoundation}
+                  onPetsChange={handlePetsChange}
                 />
               ))
             ) : isFoundation ? (
-              <h1 className="no-pets-message" data-testid="noPetsFoundation">
-                You don't have any pets registered
+              <h1 className='no-pets-message' data-testid='noPetsFoundation'>
+                {t('petListPage.no.pets.foundations')}
               </h1>
             ) : (
-              <h1 className="no-pets-message" data-testid="noPetsUser">
-                No pets available for this foundation
+              <h1 className='no-pets-message' data-testid='noPetsUser'>
+                {t('petListPage.no.pets.user')}
               </h1>
             )}
           </CardList>
@@ -96,13 +109,12 @@ const PetListPage = () => {
       {isFoundation ? (
         <IconContext.Provider
           value={{
-            color: "var(--blue-pigment)",
-            className: "add-pets-container__icon",
-          }}
-        >
+            color: 'var(--blue-pigment)',
+            className: 'add-pets-container__icon',
+          }}>
           <Link to={`/foundations/${foundationId}/add-pet`}>
-            <div className="add-pets-container" data-testid="addPetButton">
-              {" "}
+            <div className='add-pets-container' data-testid='addPetButton'>
+              {' '}
               <FaPlusCircle />
             </div>
           </Link>
@@ -110,9 +122,8 @@ const PetListPage = () => {
       ) : (
         <Link
           to={`/foundations/${foundationId}/donate`}
-          className="add-pets-container donate-button"
-        >
-          Donate
+          className='add-pets-container donate-button'>
+          {t('petListPage.donate')}
         </Link>
       )}
     </div>

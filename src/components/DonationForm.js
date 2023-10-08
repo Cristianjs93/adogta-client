@@ -1,188 +1,165 @@
-import React, { useState } from "react";
-import { useSelector } from "react-redux";
-import { useParams } from "react-router";
-import validateDonation from "./ValidateDonation";
-import Spinner from "../components/Spinner";
+import React, { useState } from 'react';
+import { useParams } from 'react-router';
+import { useSelector } from 'react-redux';
+import { useTranslation } from 'react-i18next';
+import {
+  useElements,
+  useStripe,
+  CardNumberElement,
+  CardExpiryElement,
+  CardCvcElement,
+  AddressElement,
+} from '@stripe/react-stripe-js';
+import paymentErrorHandler from '../utils/paymentErrorHandler';
+import withReactContent from 'sweetalert2-react-content';
+import Swal from 'sweetalert2';
+import axios from '../axios';
+import '../assets/styles/DonationForm.css';
 
-const DonationForm = ({ submitForm, loading }) => {
+const DonationForm = () => {
   const { id: foundationId } = useParams();
-  const { user, foundation } = useSelector((state) => state);
+  const { user, foundation } = useSelector((state) => state.general);
+  const { t } = useTranslation();
+  const elements = useElements();
+  const stripe = useStripe();
 
-  const [values, setValues] = useState({
-    idNumber: "",
-    cardNumber: "",
-    expYear: "",
-    expMonth: "",
-    cvc: "",
-    amount: "",
-    dues: "",
-  });
-  const [errors, setErrors] = useState({});
+  const [loading, setLoading] = useState(false);
+
+  const [amount, setAmount] = useState('');
+
+  const MySwal = withReactContent(Swal);
 
   const handleChange = (e) => {
-    setValues((values) => ({ ...values, [e.target.name]: e.target.value }));
+    setAmount(e.target.value);
   };
 
-  const handleSubmit = (e) => {
+  function clearElements() {
+    elements.getElement(CardNumberElement).clear();
+    elements.getElement(CardExpiryElement).clear();
+    elements.getElement(CardCvcElement).clear();
+    setAmount('');
+  }
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    const errorsMsg = validateDonation(values);
-    setErrors({ ...errorsMsg });
-    Object.keys(errorsMsg).length === 0 &&
-      submitForm(values, foundationId, user);
+    setLoading(true);
+    try {
+      if (!amount) {
+        throw new Error(t('donationForm.error.amount'));
+      }
+
+      const addressElement = elements.getElement('address');
+      const { value } = await addressElement.getValue();
+
+      const { error, paymentMethod } = await stripe.createPaymentMethod({
+        type: 'card',
+        billing_details: {
+          ...value,
+          email: user.email,
+        },
+        card: elements.getElement(
+          CardNumberElement,
+          CardExpiryElement,
+          CardCvcElement
+        ),
+      });
+
+      if (error) {
+        return paymentErrorHandler(error);
+      }
+
+      const response = await axios.post(`/donate/payment`, {
+        paymentMethod,
+        amount: amount * 100,
+        email: user.email,
+        foundationId,
+        userId: user._id,
+      });
+
+      if (!!response.data.message) {
+        throw new Error(response.data.message);
+      }
+
+      MySwal.fire({
+        title: <strong>{t('donation.successful')}</strong>,
+        icon: 'success',
+      });
+    } catch (error) {
+      return MySwal.fire({
+        title: <strong>{error.message}</strong>,
+        icon: 'error',
+      });
+    } finally {
+      clearElements();
+      setLoading(false);
+    }
   };
 
   return (
-    <>
-      {!loading ? (
-        <div className="petform__rightContainer" data-testid="petForm">
-          <form
-            className="petform__rightContainerForm"
-            onSubmit={handleSubmit}
-            data-testid="petFormSubmit"
-          >
-            <h1 className="petform__rightContainerForm--title">
-              {foundation.name}
-            </h1>
-            <h2 className="petform__rightContainerForm--text">Donation Info</h2>
-
-            <div className="petform__rightContainerForm--inputs">
-              <label
-                className="petform__rightContainerForm--label"
-                htmlFor="idNumber"
-              >
-                Identification Number
-              </label>
-              <input
-                type="text"
-                name="idNumber"
-                className="petform__rightContainerForm--input"
-                value={values.IdNumber}
-                onChange={handleChange}
-                data-testid="address"
-              />
-              {errors.idNumber && <p data-testid="errors">{errors.idNumber}</p>}
-            </div>
-            <div className="petform__rightContainerForm--inputs">
-              <label
-                className="petform__rightContainerForm--label"
-                htmlFor="cardNumber"
-              >
-                Card Number
-              </label>
-              <input
-                type="text"
-                name="cardNumber"
-                className="petform__rightContainerForm--input"
-                value={values.cardNumber}
-                onChange={handleChange}
-                data-testid="phoneNumber"
-              />
-              {errors.cardNumber && (
-                <p data-testid="errors">{errors.cardNumber}</p>
-              )}
-            </div>
-            <div className="donationForm__numberInputs">
-              <div className="donationForm__numberInputs--field">
-                <label className="petform__rightContainerForm--label">
-                  Expiration Date
-                </label>
-                <div>
-                  <select name="expMonth" id="expireMM" onChange={handleChange}>
-                    <option value="">Month</option>
-                    <option value="01">Jan</option>
-                    <option value="02">Feb</option>
-                    <option value="03">Mar</option>
-                    <option value="04">Apr</option>
-                    <option value="05">May</option>
-                    <option value="06">Jun</option>
-                    <option value="07">Jul</option>
-                    <option value="08">Aug</option>
-                    <option value="09">Sep</option>
-                    <option value="10">Oct</option>
-                    <option value="11">Nov</option>
-                    <option value="12">Dec</option>
-                  </select>
-                  <span> / </span>
-                  <select name="expYear" id="expireYY" onChange={handleChange}>
-                    <option value="">Year</option>
-                    <option value="2021">2021</option>
-                    <option value="2022">2022</option>
-                    <option value="2023">2023</option>
-                    <option value="2024">2024</option>
-                    <option value="2025">2025</option>
-                    <option value="2026">2026</option>
-                    <option value="2027">2027</option>
-                    <option value="2028">2028</option>
-                  </select>
-                </div>
-                {errors.expDate && <p data-testid="errors">{errors.expDate}</p>}
-              </div>
-              <div className="donationForm__numberInputs--field">
-                <label
-                  className="petform__rightContainerForm--label"
-                  htmlFor="cvc"
-                >
-                  CVC Number
-                </label>
-                <input
-                  type="number"
-                  name="cvc"
-                  className="petform__rightContainerForm--input"
-                  value={values.cvc}
-                  onChange={handleChange}
-                  data-testid="description"
-                />
-                {errors.cvc && <p data-testid="errors">{errors.cvc}</p>}
-              </div>
-            </div>
-            <div className="donationForm__numberInputs">
-              <div className="donationForm__numberInputs--field">
-                <label
-                  className="petform__rightContainerForm--label"
-                  htmlFor="amount"
-                >
-                  Donation amount
-                </label>
-                <input
-                  type="number"
-                  name="amount"
-                  className="petform__rightContainerForm--input"
-                  value={values.donationAmount}
-                  onChange={handleChange}
-                  data-testid="description"
-                />
-                {errors.amount && <p data-testid="errors">{errors.amount}</p>}
-              </div>
-              <div className="donationForm__numberInputs--field">
-                <label
-                  className="petform__rightContainerForm--label"
-                  htmlFor="dues"
-                >
-                  Dues
-                </label>
-                <input
-                  type="number"
-                  name="dues"
-                  className="petform__rightContainerForm--input"
-                  value={values.dues}
-                  onChange={handleChange}
-                  data-testid="description"
-                />
-                {errors.dues && <p data-testid="errors">{errors.dues}</p>}
-              </div>
-            </div>
-            <button
-              className="petform__rightContainerForm--button"
-              type="submit"
-            >
-              DONATE
-            </button>
-          </form>
+    <div className='donationForm'>
+      <h1 className='donationForm__foundation'>{foundation.name}</h1>
+      <h2 className='donationForm__info'>{t('donationForm.info')}</h2>
+      <form className='donationForm__form-container' onSubmit={handleSubmit}>
+        <div>
+          <label className='stripe-label'>{t('donationForm.card')}</label>
+          <CardNumberElement
+            className='stripe-input'
+            options={{ showIcon: true }}
+          />
         </div>
-      ) : (
-        <Spinner />
-      )}
-    </>
+        <div>
+          <label className='stripe-label'>{t('donationForm.expiration')}</label>
+          <CardExpiryElement
+            options={{
+              placeholder: t('donationForm.expiration.placeholder'),
+            }}
+            className='stripe-input'
+          />
+        </div>
+        <div>
+          <label className='stripe-label'>{t('donationForm.cvc')}</label>
+          <CardCvcElement className='stripe-input' />
+        </div>
+        <div>
+          <label className='stripe-label'>{t('donationForm.amount')}</label>
+          <input
+            type='number'
+            name='amount'
+            className='stripe-input-amount'
+            value={amount}
+            onChange={handleChange}
+            data-testid='description'
+          />
+        </div>
+        <AddressElement
+          options={{
+            mode: 'billing',
+            fields: {
+              phone: 'always',
+            },
+            defaultValues: {
+              name: user.name,
+              phone: user.phoneNumber,
+              address: {
+                line1: user.address,
+                line2: '',
+                city: 'Bogota',
+                state: 'CUN',
+                postal_code: '110110',
+                country: 'CO',
+              },
+            },
+          }}
+          className='stripe-input-address'
+        />
+        <button
+          type='submit'
+          className='petform__rightContainerForm--button'
+          disabled={loading ? true : false}>
+          {t('help.donate')}
+        </button>
+      </form>
+    </div>
   );
 };
 

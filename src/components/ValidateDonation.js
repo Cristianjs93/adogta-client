@@ -1,30 +1,31 @@
+import i18n from '../i18n';
 export default function validateInfo(values) {
   let errors = {};
 
   if (!values.idNumber?.trim()) {
-    errors.idNumber = "Identification number required";
+    errors.idNumber = i18n.t('validateDonation.identification');
   }
 
   if (!values.cardNumber) {
-    errors.cardNumber = "Credit Card number required";
+    errors.cardNumber = i18n.t('validateDonation.cardNumber');
   }
 
   if (!values.expMonth || !values.expYear) {
-    errors.expDate = "Expiration date required";
+    errors.expDate = i18n.t('validateDonation.expirationDate');
   }
 
   if (!values.cvc) {
-    errors.cvc = "CVC code required";
+    errors.cvc = i18n.t('validateDonation.cvcCode');
   }
 
   if (!values.amount) {
-    errors.amount = "Donation amount required";
+    errors.amount = i18n.t('validateDonation.amount');
   }
 
   if (!values.dues) {
-    errors.dues = "dues are required";
+    errors.dues = i18n.t('validateDonation.dues');
   } else if (values.dues > 12 || values.dues < 1) {
-    errors.dues = "invalid dues number";
+    errors.dues = i18n.t('validateDonation.invalid.dues');
   }
   return errors;
 }

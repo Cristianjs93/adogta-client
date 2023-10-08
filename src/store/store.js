@@ -1,7 +1,7 @@
-import reducer from "./reducer";
-import { createStore, compose, applyMiddleware } from "redux";
-import thunk from "redux-thunk";
-import { LOADING, INITIALIZED } from "./actions";
+import reducer from './reducer';
+import { createStore, compose, applyMiddleware } from 'redux';
+import thunk from 'redux-thunk';
+import { LOADING, INITIALIZED } from './actions';
 
 const initialState = {
   user: {},
@@ -12,7 +12,7 @@ const initialState = {
   foundationRequests: [],
   userRequests: [],
   selectedPet: {},
-  error: "",
+  error: '',
   status: LOADING,
   errStatus: INITIALIZED,
   foundation: {},
@@ -23,6 +23,6 @@ export default function createStoreApp() {
   return createStore(
     reducer,
     initialState,
-    composeEnhancers(applyMiddleware(thunk)),
+    composeEnhancers(applyMiddleware(thunk))
   );
 }

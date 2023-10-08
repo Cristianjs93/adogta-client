@@ -1,0 +1,31 @@
+.navBar__language-container {
+  display: flex;
+  margin-left: 10px;
+}
+
+.navBar__icon {
+  width: 16px;
+}
+
+.navBar__language {
+  width: fit-content;
+  font-weight: 900;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  background-color: #3e2f90;
+  cursor: pointer;
+  outline: none;
+}
+
+.navBar__option {
+  font-weight: 700;
+  color: #3e2f90;
+  background-color: #fff;
+}
+
+.navBar__option:checked {
+  font-weight: 700;
+  color: #3e2f90;
+  background-color: #fff;
+}
