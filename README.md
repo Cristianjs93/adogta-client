@@ -56,31 +56,31 @@ The main challenge of this project is to develop a web application that allows e
 
 ### Screenshot 📷
 
-![Alt text](image.png)
+![Alt text](src/assets/images/image.png)
 **_Home page_**
 <br/>
 
-![Altv text](image-1.png)
+![Altv text](src/assets/images/image-1.png)
 **_Foundations page_**
 <br/>
 
-![Alt text](image-2.png)
+![Alt text](src/assets/images/image-2.png)
 **_Pets page_**
 <br/>
 
-![Alt text](image-4.png)
+![Alt text](src/assets/images/image-4.png)
 **_Pet detail_**
 <br/>
 
-![Alt text](image-3.png)
+![Alt text](src/assets/images/image-3.png)
 **_Pet Adoption request_**
 <br/>
 
-![Alt text](image-5.png)
+![Alt text](src/assets/images/image-5.png)
 **_Donation page_**
 <br/>
 
-![Alt text](image-6.png)
+![Alt text](src/assets/images/image-6.png)
 **_User profile_**
 
 ### Built with 🛠️
