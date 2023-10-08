@@ -14,7 +14,7 @@
 ## Overview :writing_hand:
 
 Adogta is a web application that connects pet foundations with individuals interested in adopting a furry companion. As a user, you can browse through the foundation's page and view each of the pets they have available for adoption. If you find one you like, you can send an adoption request and wait for the foundation's response, or contribute to their cause by making a donation. As a foundation, you can create and manage pets through a highly intuitive interface.
-The application connects to a backend API developed in Express to handle data. This repository contains the frontend structure. Here is the link to the backend repository: [Backend Repository](https://github.com/Cristianjs93/adogta-server), and the link to the deployed application on Vercel: [Deployed Project]()."
+The application connects to a backend API developed in Express to handle data. This repository contains the frontend structure. Here is the link to the backend repository: [Backend Repository](https://github.com/Cristianjs93/adogta-server), and the link to the deployed application on Vercel: [Deployed Project](https://adogta-client.vercel.app/)."
 
 ### Installation :gear:
 
